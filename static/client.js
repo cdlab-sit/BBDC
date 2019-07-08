@@ -24,21 +24,22 @@ function showAllCurrentFunc(n, func) {
 var xhrGet = new XMLHttpRequest();
 var xhrPost = new XMLHttpRequest();
 
+xhrPost.onload = function(){
+    console.log(xhrPost.response)
+}
+
 xhrGet.onload = function(){
     response = JSON.parse(xhrGet.response);
     console.log(this.response)
     var target = response["target"];
     count = showAllCurrentFunc(target); // varの有無
-    xhrPost.open('POST', 'complete-task');
+    xhrPost.open('POST', 'complete-task', false);
     xhrPost.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
     xhrPost.send('taskID=' + response['taskID'] + '&' + 'result=' + count)
     console.log('処理完了')
 
 }
 
-xhrPost.onload = function(){
-    console.log(xhrPost.response)
-}
 
 for (var i = 1; i <= 2 ; i++ ){
     xhrGet.open('GET', 'make-task', false);
