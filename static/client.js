@@ -1,0 +1,47 @@
+
+function judgePrimeNumber(n) {
+    if (n === 2) return true;
+    for (let i = 2; i < n; i++) {
+        if (n % i === 0) return false;
+    }
+    return true;
+};
+
+function showAllCurrentFunc(n, func) {
+    // document.write("数値:" + n + "を計算<br><br>");
+    const startTime = Date.now();
+    count = 0;
+    for (let i = 1; i < n; i++) {
+        if(judgePrimeNumber(i)){
+            count++;
+        }
+    }
+    const endTime = Date.now();
+    document.write(endTime - startTime + "ミリ秒<br>");
+    return count;
+};
+
+var xhrGet = new XMLHttpRequest();
+var xhrPost = new XMLHttpRequest();
+
+xhrGet.onload = function(){
+    response = JSON.parse(xhrGet.response);
+    console.log(this.response)
+    var target = response["target"];
+    count = showAllCurrentFunc(target); // varの有無
+    xhrPost.open('POST', 'complete-task');
+    xhrPost.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+    xhrPost.send('taskID=' + response['taskID'] + '&' + 'result=' + count)
+    console.log('処理完了')
+
+}
+
+xhrPost.onload = function(){
+    console.log(xhrPost.response)
+}
+
+for (var i = 1; i <= 2 ; i++ ){
+    xhrGet.open('GET', 'make-task', false);
+    xhrGet.send(null);
+
+}
