@@ -1,3 +1,4 @@
+"use strict";
 
 function judgePrimeNumber(n) {
     if (n === 2) return true;
@@ -10,7 +11,7 @@ function judgePrimeNumber(n) {
 function showAllCurrentFunc(n, func) {
     // document.write("数値:" + n + "を計算<br><br>");
     const startTime = Date.now();
-    count = 0;
+    var count = 0;
     for (let i = 1; i < n; i++) {
         if(judgePrimeNumber(i)){
             count++;
@@ -29,10 +30,12 @@ xhrPost.onload = function(){
 }
 
 xhrGet.onload = function(){
-    response = JSON.parse(xhrGet.response);
+    var response = JSON.parse(xhrGet.response);
     console.log(this.response)
     var target = response["target"];
-    count = showAllCurrentFunc(target); // varの有無
+    var id = response['taskID']
+    if (id == 0) return;
+    var count = showAllCurrentFunc(target); // varの有無
     xhrPost.open('POST', 'complete-task', false);
     xhrPost.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
     xhrPost.send('taskID=' + response['taskID'] + '&' + 'result=' + count)
@@ -40,9 +43,7 @@ xhrGet.onload = function(){
 
 }
 
-
 for (var i = 1; i <= 2 ; i++ ){
     xhrGet.open('GET', 'make-task', false);
     xhrGet.send(null);
-
 }
