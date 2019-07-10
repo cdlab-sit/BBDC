@@ -6,9 +6,9 @@ app = Flask(__name__)
 def index():
     return "route"
 
-@app.route('/client')
+@app.route('/user')
 def cliant():
-    return render_template('client.html')
+    return render_template('user.html')
 
 @app.route('/make-task')
 def make():
