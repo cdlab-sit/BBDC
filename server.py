@@ -18,6 +18,7 @@ def make():
     }
     return jsonify(info)
 
+#from user.js
 @app.route('/complete-task', methods=['GET', 'POST'])
 def complete():
     print(request.form['taskID'])
