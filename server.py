@@ -15,15 +15,16 @@ def cliant():
 def make():
     info = {
         "target": "100000",
-        "taskID": "1"
+        "taskID": "1",
+        "return": "-1"          # 空の場合 -1　 解が存在しない場合 0
     }
 
     #csvモジュールは独自の改行処理を行うため、newline='' を指定
     with open('taskID_list.csv','a',newline='') as csvfile:
         writer=csv.writer(csvfile, lineterminator='\n')
-        for i in info:
-            writer.writerow(info[i])
-
+        print(info["target"],file=csvfile,end=',')
+        print(info["taskID"],file=csvfile,end=',')
+        print(info["return"],file=csvfile)
     return jsonify(info)
 
 #from user.js
