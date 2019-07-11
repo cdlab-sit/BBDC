@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+import csv
 
 app = Flask(__name__)
 
@@ -16,6 +17,13 @@ def make():
         "target": "100000",
         "taskID": "1"
     }
+
+    #csvモジュールは独自の改行処理を行うため、newline='' を指定
+    with open('taskID_list.csv','a',newline='') as csvfile:
+        writer=csv.writer(csvfile, lineterminator='\n')
+        for i in info:
+            writer.writerow(info[i])
+
     return jsonify(info)
 
 #from user.js
