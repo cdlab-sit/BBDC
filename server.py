@@ -28,7 +28,6 @@ def make():
 
     #csvモジュールは独自の改行処理を行うため、newline='' を指定
     with open('taskID_list.csv','a',newline='') as csvfile:
-        writer=csv.writer(csvfile, lineterminator='\n')
         print(info["target"],file=csvfile,end=',')
         print(info["taskID"],file=csvfile,end=',')
         print(info["result"],file=csvfile)
@@ -39,7 +38,9 @@ def make():
 def complete():
     print(1)
     with open('taskID_list.csv', 'r+', newline='') as csvfile:
-        reader=csv.reader(csvfile, lineterminator='\n')          
+        reader=csv.reader(csvfile, lineterminator='\n')
+        for i in reader:
+            print(i)                
     print('taskID:' + request.form['taskID'])
     print('result:' + request.form['result'])
     return 'ok from server'
