@@ -12,7 +12,7 @@ class static:
 @app.route('/')
 def index():
     static.task_num=0
-    return "route"
+    return "待機"
 
 @app.route('/user')
 def cliant():
@@ -21,6 +21,9 @@ def cliant():
 @app.route('/make-task')
 def make():
     target = random.randint(50000,100000)
+    target = 50000 #test
+    if(static.task_num>=100):
+        static.taskID = 0
     info = {
         "target": target,
         "taskID": static.taskID,
@@ -34,11 +37,7 @@ def complete():
     if(request.form['result']):
         static.task_num += 1
         print(static.task_num)
-
-    if(static.task_num>=10):
-        return 'false'
-    else:
-        return 'true'
+    return 'ok from server'
 
 # @app.route('/mogumogu', methods=[])
 # def complete():
