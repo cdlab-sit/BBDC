@@ -3,6 +3,9 @@ import csv, random
 
 app = Flask(__name__)
 
+with open('taskID_list.csv','w',newline='') as csvfile:
+    print("target,taskID,result",file=csvfile)
+
 # python で static変数を使いたかった
 # 代用案
 class static:
@@ -25,7 +28,6 @@ def make():
         "result": "0"          # 空の場合 0
     }
     static.taskID+=1
-
     #csvモジュールは独自の改行処理を行うため、newline='' を指定
     with open('taskID_list.csv','a',newline='') as csvfile:
         print(info["target"],file=csvfile,end=',')
@@ -36,13 +38,12 @@ def make():
 # /user で user.js により呼び出される 
 @app.route('/complete-task', methods=['POST'])
 def complete():
-    print(1)
     with open('taskID_list.csv', 'r+', newline='') as csvfile:
-        reader=csv.reader(csvfile, lineterminator='\n')
+        reader=csv.DictReader(csvfile, lineterminator='\n')
         for i in reader:
-            print(i)                
-    print('taskID:' + request.form['taskID'])
-    print('result:' + request.form['result'])
+            if(i['taskID']==request.form['taskID']):
+                print('taskID:' + i['taskID'])
+                print('result:' + request.form['result'])
     return 'ok from server'
 
 # @app.route('/mogumogu', methods=[])
