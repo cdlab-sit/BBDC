@@ -11,7 +11,7 @@ class static:
 
 @app.route('/')
 def index():
-
+    static.task_num=0
     return "route"
 
 @app.route('/user')
