@@ -11,6 +11,7 @@ class static:
 
 @app.route('/')
 def index():
+
     return "route"
 
 @app.route('/user')
@@ -23,7 +24,6 @@ def make():
     info = {
         "target": target,
         "taskID": static.taskID,
-        "result": "0"          # 空の場合 0
     }
     static.taskID+=1
     return jsonify(info)
@@ -35,11 +35,10 @@ def complete():
         static.task_num += 1
         print(static.task_num)
 
-    if(static.task_num>=100):
-        static.task_num=0
-        return 'True'
+    if(static.task_num>=10):
+        return 'false'
     else:
-        return 'False'
+        return 'true'
 
 # @app.route('/mogumogu', methods=[])
 # def complete():
