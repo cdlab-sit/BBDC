@@ -3,13 +3,11 @@ import csv, random
 
 app = Flask(__name__)
 
-with open('taskID_list.csv','w',newline='') as csvfile:
-    print("target,taskID,result",file=csvfile)
-
 # python で static変数を使いたかった
 # 代用案
 class static:
-    taskID=1
+    taskID=0
+    task_num=0
 
 @app.route('/')
 def index():
@@ -28,23 +26,20 @@ def make():
         "result": "0"          # 空の場合 0
     }
     static.taskID+=1
-    #csvモジュールは独自の改行処理を行うため、newline='' を指定
-    with open('taskID_list.csv','a',newline='') as csvfile:
-        print(info["target"],file=csvfile,end=',')
-        print(info["taskID"],file=csvfile,end=',')
-        print(info["result"],file=csvfile)
     return jsonify(info)
 
 # /user で user.js により呼び出される 
 @app.route('/complete-task', methods=['POST'])
 def complete():
-    with open('taskID_list.csv', 'r+', newline='') as csvfile:
-        reader=csv.DictReader(csvfile, lineterminator='\n')
-        for i in reader:
-            if(i['taskID']==request.form['taskID']):
-                print('taskID:' + i['taskID'])
-                print('result:' + request.form['result'])
-    return 'ok from server'
+    if(request.form['result']):
+        static.task_num += 1
+        print(static.task_num)
+
+    if(static.task_num>=100):
+        static.task_num=0
+        return 'True'
+    else:
+        return 'False'
 
 # @app.route('/mogumogu', methods=[])
 # def complete():
