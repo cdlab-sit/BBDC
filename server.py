@@ -6,7 +6,8 @@ app = Flask(__name__)
 # python で static変数を使いたかった
 # 代用案
 class static:
-    taskID=1
+    taskID=0
+    task_num=0
 
 @app.route('/')
 def index():
@@ -22,26 +23,23 @@ def make():
     info = {
         "target": target,
         "taskID": static.taskID,
-        "return": "-1"          # 空の場合 -1　 解が存在しない場合 0
+        "result": "0"          # 空の場合 0
     }
     static.taskID+=1
-
-    #csvモジュールは独自の改行処理を行うため、newline='' を指定
-    with open('taskID_list.csv','a',newline='') as csvfile:
-        writer=csv.writer(csvfile, lineterminator='\n')
-        print(info["target"],file=csvfile,end=',')
-        print(info["taskID"],file=csvfile,end=',')
-        print(info["return"],file=csvfile)
     return jsonify(info)
 
-#from user.js
-@app.route('/complete-task', methods=['GET', 'POST'])
+# /user で user.js により呼び出される 
+@app.route('/complete-task', methods=['POST'])
 def complete():
-    with open('taskID_list.csv', 'r+', newline='') as csvfile:
-        reader=csv.writer(csvfile, lineterminator='\n')
-        print(reader)
-    request.form['taskID']
-    return 'ok from server'
+    if(request.form['result']):
+        static.task_num += 1
+        print(static.task_num)
+
+    if(static.task_num>=100):
+        static.task_num=0
+        return 'True'
+    else:
+        return 'False'
 
 # @app.route('/mogumogu', methods=[])
 # def complete():
