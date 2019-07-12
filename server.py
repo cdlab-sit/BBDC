@@ -22,7 +22,7 @@ def make():
     info = {
         "target": target,
         "taskID": static.taskID,
-        "return": "-1"          # 空の場合 -1　 解が存在しない場合 0
+        "result": "0"          # 空の場合 0
     }
     static.taskID+=1
 
@@ -31,16 +31,17 @@ def make():
         writer=csv.writer(csvfile, lineterminator='\n')
         print(info["target"],file=csvfile,end=',')
         print(info["taskID"],file=csvfile,end=',')
-        print(info["return"],file=csvfile)
+        print(info["result"],file=csvfile)
     return jsonify(info)
 
-#from user.js
-@app.route('/complete-task', methods=['GET', 'POST'])
+# /user で user.js により呼び出される 
+@app.route('/complete-task', methods=['POST'])
 def complete():
+    print(1)
     with open('taskID_list.csv', 'r+', newline='') as csvfile:
-        reader=csv.writer(csvfile, lineterminator='\n')
-        print(reader)
-    request.form['taskID']
+        reader=csv.reader(csvfile, lineterminator='\n')          
+    print('taskID:' + request.form['taskID'])
+    print('result:' + request.form['result'])
     return 'ok from server'
 
 # @app.route('/mogumogu', methods=[])
