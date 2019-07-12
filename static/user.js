@@ -24,9 +24,11 @@ function showAllCurrentFunc(n, func) {
 
 var xhrGet = new XMLHttpRequest();
 var xhrPost = new XMLHttpRequest();
+var isRunning = true;
 
 xhrPost.onload = function(){
-    console.log(xhrPost.response)
+    if (response == "False") isRunning = false;
+    else isRunning = true;
 }
 
 xhrGet.onload = function(){
@@ -43,7 +45,7 @@ xhrGet.onload = function(){
 
 }
 
-for (var i = 1; i <= 2 ; i++ ){
+while(isRunning){
     xhrGet.open('GET', 'make-task', false);
     xhrGet.send(null);
 }
