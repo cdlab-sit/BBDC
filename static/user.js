@@ -27,7 +27,7 @@ var xhrPost = new XMLHttpRequest();
 var isRunning = true;
 
 xhrPost.onload = function(){
-    if (response == "False") isRunning = false;
+    if (this.response == "false") isRunning = false;
     else isRunning = true;
 }
 
@@ -46,6 +46,7 @@ xhrGet.onload = function(){
 }
 
 while(isRunning){
+    // console.log('isRunning = ' + isRunning)
     xhrGet.open('GET', 'make-task', false);
     xhrGet.send(null);
 }
