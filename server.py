@@ -22,13 +22,15 @@ def cliant():
 def make():
     target = random.randint(50000,100000)
     target = 50000 #test
-    if(static.task_num>=100):
+    if(static.task_num>=10):
         static.taskID = 0
+    else:
+        static.taskID+=1
+
     info = {
         "target": target,
         "taskID": static.taskID,
     }
-    static.taskID+=1
     return jsonify(info)
 
 # /user で user.js により呼び出される 
