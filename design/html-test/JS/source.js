@@ -1,3 +1,4 @@
+// 参照先を格納
 var ground_b = "../gif/ground-before-250-250.png";
 var ground_a = "../gif/ground-after-250-250.png";
 var sutegoro = "../gif/sutegoro-250-250-30.gif";
@@ -7,6 +8,7 @@ var parking = "../gif/parking-250-250.png";
 var diamond = "../gif/treasure-250-250-30.gif";
 var yattane = "../gif/yattane-250-250-30.gif";
 
+// 14パターンの参照先を格納した配列を場所ごとに用意
 var l1c1_src = new Array(sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
 var l1c2_src = new Array(ground_b,sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
 var l1c3_src = new Array(ground_b,ground_b,sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
@@ -23,6 +25,7 @@ var num = -1;
 
 const mogumogu = document.getElementById('mogumogu')
 mogumogu.addEventListener('click', function(){
+  // 画像全てを表示パターンごとに読み込み直す
   if (num == 13)num = 0;
   else num ++;
   document.getElementById("l1c1").src=l1c1_src[num];
