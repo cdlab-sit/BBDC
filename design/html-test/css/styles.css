@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+.mogumogu{
+  width: 100px;
+  height: 750px;
+  background: skyblue;
+  cursor: pointer;
+}
+
+.line1{
+  height: 250px;
+  display: flex;
+  flex-direction: row;
+}
+.line2{
+  height: 250px;
+  display: flex;
+  flex-direction: row;
+}
+.line3{
+  height: 250px;
+  display: flex;
+  flex-direction: row;
+}
