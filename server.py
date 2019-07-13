@@ -44,6 +44,13 @@ def make():
         "target": target,
         "taskID": taskID,
     }
+    with open(filename,'r',newline='') as csvfile:
+        if(len(csvfile.readlines())>=12):
+            info = {
+                "target": 0,
+                "taskID": 0,
+            }    
+            
     return jsonify(info)
 
 # /user で user.js により呼び出される 
@@ -55,11 +62,7 @@ def complete():
         print(request.form['result'])
         writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
         writer.writerow([request.form['taskID'],request.form['target'],request.form['result']])
-    with open(filename,'r',newline='') as csvfile:
-        if(len(csvfile.readlines())>=10):
-            return 'false'
-        else: 
-            return 'true'
+    return 'complete-task'
 
 if __name__ == "__main__":
     app.run(threaded=True, debug=True, host='0.0.0.0', port=5000)
