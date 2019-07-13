@@ -1,7 +1,12 @@
 from flask import Flask, render_template, request, jsonify
-import csv, random
+import csv, random, datetime
 
 app = Flask(__name__)
+
+dt_now = datetime.datetime.now()
+filename = dt_now.strftime('%Y_%m_%d_%H:%M:%S')
+with open(filename,'w') as csv:
+    print('just made file')
 
 # python で static変数を使いたかった
 # 代用案
@@ -11,7 +16,6 @@ class static:
 
 @app.route('/')
 def index():
-    static.task_num=0
     return "待機"
 
 @app.route('/user')
@@ -20,13 +24,12 @@ def cliant():
 
 @app.route('/make-task')
 def make():
+    with open(filename,'r') as csvfile:
+        reader = csv.DictReader(csvfile,fieldnames=['taskID,target,result'])
+    
+    # 乱数生成
     target = random.randint(50000,100000)
     target = 50000 #test
-    if(static.task_num>=10):
-        static.taskID = 0
-    else:
-        static.taskID+=1
-
     info = {
         "target": target,
         "taskID": static.taskID,
@@ -36,9 +39,10 @@ def make():
 # /user で user.js により呼び出される 
 @app.route('/complete-task', methods=['POST'])
 def complete():
-    if(request.form['result']):
-        static.task_num += 1
-        print(static.task_num)
+    with open(filename,'a',newline='') as csvfile:
+        print(request.form['taskID'],file=csvfile,newline=',')
+        print(request.form['target'],file=csvfile,newline=',')
+        print(request.form['result'],file=csvfile)
     return 'ok from server'
 
 # @app.route('/mogumogu', methods=[])
