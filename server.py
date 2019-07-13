@@ -7,18 +7,18 @@ filename = ''
 
 @app.route('/host')
 def host():
-    return 'go'
-
-@app.route('/host-waiting')
-def index():
     global filename
     dt_now = datetime.datetime.now()
-    filename = dt_now.strftime('%Y_%m_%d_%H:%M:%S')
+    filename = 'csv/' + dt_now.strftime('%Y_%m_%d_%H:%M:%S')
     with open(filename,'w') as csvfile:
         writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
         writer.writerow(['taskID','target','result'])
         writer.writerow(['0','0','0'])
         print('just made file')
+    return 'go'
+
+@app.route('/host-waiting')
+def index():
     return "待機"
 
 @app.route('/user-waiting')
@@ -45,7 +45,7 @@ def make():
         "taskID": taskID,
     }
     with open(filename,'r',newline='') as csvfile:
-        if(len(csvfile.readlines())>=12):
+        if(len(csvfile.readlines())>=22):
             info = {
                 "target": 0,
                 "taskID": 0,
