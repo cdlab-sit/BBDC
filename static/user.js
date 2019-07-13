@@ -46,7 +46,7 @@ window.onload = function(){
         var count = showAllCurrentFunc(target);
         xhrPost.open('POST', 'complete-task', false);
         xhrPost.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-        xhrPost.send('taskID=' + id + '&' + 'result=' + count)
+        xhrPost.send('taskID=' + id + '&' + 'result=' + count + '&' + 'target=' + target)
     }
     setTimeout("location.href='/user-waiting'",3000)
 }
