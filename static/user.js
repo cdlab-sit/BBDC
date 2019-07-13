@@ -35,15 +35,18 @@ xhrGet.onload = function(){
     var response = JSON.parse(xhrGet.response);
     target = response["target"];
     id = response['taskID']
-    // console.log('id = ' + id )
+    console.log('id = ' + id )
 }
 
-for(;;){
-    xhrGet.open('GET', 'make-task', false);
-    xhrGet.send(null);
-    if (id == "0") break;
-    var count = showAllCurrentFunc(target);
-    xhrPost.open('POST', 'complete-task', false);
-    xhrPost.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-    xhrPost.send('taskID=' + id + '&' + 'result=' + count)
+window.onload = function(){
+    for(;;){
+        xhrGet.open('GET', 'make-task', false);
+        xhrGet.send(null);
+        if (id == "0") break;
+        var count = showAllCurrentFunc(target);
+        xhrPost.open('POST', 'complete-task', false);
+        xhrPost.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+        xhrPost.send('taskID=' + id + '&' + 'result=' + count)
+    }
+    setTimeout("location.href='/user-waiting'",3000)
 }
