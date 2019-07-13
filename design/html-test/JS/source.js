@@ -21,7 +21,7 @@ var l3c1_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,g
 var l3c2_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,driller,ground_a,ground_a);
 var l3c3_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,driller,parking);
 var l3c4_src = new Array(diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,yattane);
-var num = -1;
+var num = ;
 
 const mogumogu = document.getElementById('mogumogu')
 mogumogu.addEventListener('click', function(){
