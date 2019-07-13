@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, jsonify
-import csv, random, datetime
+import csv, random, datetime, os
 
 app = Flask(__name__)
 
 filename = ''
+if not os.path.exists('csv'):
+    os.mkdir('csv')
 
 @app.route('/host')
 def host():
