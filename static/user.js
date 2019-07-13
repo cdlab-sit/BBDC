@@ -38,10 +38,6 @@ xhrGet.onload = function(){
     console.log('id = ' + id )
 }
 
-// var mycallback = function(){
-//     setTimeout("location.href='/user-waiting'",3000)
-// }
-
 window.onload = function(){
     for(;;){
         xhrGet.open('GET', 'make-task', false);
