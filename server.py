@@ -3,24 +3,22 @@ import csv, random, datetime
 
 app = Flask(__name__)
 
-# python で static変数を使いたかった
-# 代用案
-class static:
-    taskID=1
-    task_num=0
-
 filename = ''
 
 @app.route('/host')
 def host():
-    dt_now = datetime.datetime.now()
-    filename = dt_now.strftime('%Y_%m_%d_%H:%M:%S')
-    with open(filename,'w') as csv:
-        print('just made file')
     return 'go'
 
 @app.route('/host-waiting')
 def index():
+    global filename
+    dt_now = datetime.datetime.now()
+    filename = dt_now.strftime('%Y_%m_%d_%H:%M:%S')
+    with open(filename,'w') as csvfile:
+        writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
+        writer.writerow(['taskID','target','result'])
+        writer.writerow(['0','0','0'])
+        print('just made file')
     return "待機"
 
 @app.route('/user-waiting')
@@ -33,29 +31,35 @@ def cliant():
 
 @app.route('/make-task')
 def make():
-    # with open(filename,'r') as csvfile:
-    #     reader = csv.DictReader(csvfile,fieldnames=['taskID,target,result'])
+    with open(filename,'r',newline='') as csvfile:
+        reader=csv.DictReader(csvfile)
+        for row in reader:
+            taskID=int(row['taskID'])
+    taskID+=1
     
     # 乱数生成
     target = random.randint(50000,100000)
-    target = 50000 #test
+    #target = 50000 #test
     info = {
         "target": target,
-        "taskID": static.taskID,
+        "taskID": taskID,
     }
     return jsonify(info)
 
 # /user で user.js により呼び出される 
 @app.route('/complete-task', methods=['POST'])
 def complete():
-    # with open(filename,'w',newline='') as csvfile:
-    print(request.form['taskID'])
-    # print(request.form['target'])
-    print(request.form['result'])
-    #     print(request.form['taskID'],file=csvfile,newline=',')
-    #     print(request.form['target'],file=csvfile,newline=',')
-    #     print(request.form['result'],file=csvfile)
-    return 'ok from server'
+    with open(filename,'a',newline='') as csvfile:
+        print(request.form['taskID'])
+        print(request.form['target'])
+        print(request.form['result'])
+        writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
+        writer.writerow([request.form['taskID'],request.form['target'],request.form['result']])
+    with open(filename,'r',newline='') as csvfile:
+        if(len(csvfile.readlines())>=10):
+            return 'false'
+        else: 
+            return 'true'
 
 if __name__ == "__main__":
     app.run(threaded=True, debug=True, host='0.0.0.0', port=5000)
