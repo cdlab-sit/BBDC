@@ -1,10 +1,10 @@
 // 参照先を格納
-var ground_b = "../gif/ground-before-250-250.png";
-var ground_a = "../gif/ground-after-250-250.png";
+var ground_b = "../gif/ground-before-250-250.gif";
+var ground_a = "../gif/ground-after-250-250.gif";
 var sutegoro = "../gif/sutegoro-250-250-30.gif";
 var pickeler = "../gif/pickel-250-250-30.gif";
 var driller = "../gif/drill-250-250-30.gif";
-var parking = "../gif/parking-250-250.png";
+var parking = "../gif/parking-250-250.gif";
 var diamond = "../gif/treasure-250-250-30.gif";
 var yattane = "../gif/yattane-250-250-30.gif";
 
