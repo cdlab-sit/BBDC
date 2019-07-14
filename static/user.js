@@ -43,27 +43,34 @@ xhrGet.onload = function(){
     id = response['taskID']
 }
 
-var dig = function(){
-    console.log('dig start ')
-    xhrGet.open('GET', 'make-task', false);
-    xhrGet.send(null);
-    console.log('id = ' + id )
-    if (id != "0") {
-        setTimeout(dig,500);//あとで調整 
-    }
-    else{
-        end();
-    }
-    var count = showAllCurrentFunc(target);
-    xhrPost.open('POST', 'complete-task', false);
-    xhrPost.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-    xhrPost.send('taskID=' + id + '&' + 'result=' + count + '&' + 'target=' + target)
-}
-
-window.addEventListener("load", dig) 
-
 var end = function(){
     loading.style.display = 'none';
     contents.classList.remove('hidden');
     setTimeout("location.href='/user-waiting'",3000)
 }
+
+var dig = function(){
+    console.log('dig start ')
+    xhrGet.open('GET', 'make-task', false);
+    xhrGet.send(null);
+    console.log('id = ' + id )
+    if (id == "0"){
+        end();
+        return;
+    }
+    var count = showAllCurrentFunc(target);
+    xhrPost.open('POST', 'complete-task', false);
+    xhrPost.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+    xhrPost.send('taskID=' + id + '&' + 'result=' + count + '&' + 'target=' + target)
+    // setTimeout(dig(),500);
+    dig();
+}
+
+// var mogu = document.getElementById('loading');
+
+// window.addEventListener("load", function(){
+//     var img = this.document.createElement('img');
+//     img.src = anime
+// }
+
+window.addEventListener("load", dig);
