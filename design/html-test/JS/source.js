@@ -26,7 +26,9 @@ var num = 0;
 const mogumogu = document.getElementById('mogumogu')
 mogumogu.addEventListener('click', function(){
   // 画像全てを表示パターンごとに読み込み直す
-  if (num == 13)num = 0;
+  if (num == 13){
+    location.replace('./menu.html');
+  }
   else num ++;
   document.getElementById("l1c1").src=l1c1_src[num];
   document.getElementById("l1c2").src=l1c2_src[num];
