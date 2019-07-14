@@ -72,5 +72,8 @@ var dig = function(){
 //     var img = this.document.createElement('img');
 //     img.src = anime
 // }
-
-window.addEventListener("load", dig);
+console.log('aa')
+document.getElementById('loading').innerHTML = '<img src="static/img/drill-250-250-30.gif" alt="sample">';
+// window.addEventListener("load", dig);
+setTimeout(dig, 500);
+// windows.onload = dig();
