@@ -1,5 +1,11 @@
 "use strict";
 
+// loadingのdivを取得
+var loading = document.getElementById('loading');
+// contentsのdivを取得
+var contents = document.getElementById('contents');
+
+
 function judgePrimeNumber(n) {
     if (n === 2) return true;
     for (let i = 2; i < n; i++) {
@@ -10,15 +16,15 @@ function judgePrimeNumber(n) {
 
 function showAllCurrentFunc(n, func) {
     // document.write("数値:" + n + "を計算<br><br>");
-    const startTime = Date.now();
+    // const startTime = Date.now();
     var count = 0;
     for (let i = 1; i < n; i++) {
         if(judgePrimeNumber(i)){
             count++;
         }
     }
-    const endTime = Date.now();
-    document.write(endTime - startTime + "ミリ秒<br>");
+    // const endTime = Date.now();
+    // document.write(endTime - startTime + "ミリ秒<br>");
     return count;
 };
 
@@ -28,25 +34,46 @@ var id;
 var target;
 
 xhrPost.onload = function(){
-    console.log(this.response)
+    // console.log(this.response)
 }
 
 xhrGet.onload = function(){
     var response = JSON.parse(xhrGet.response);
     target = response["target"];
     id = response['taskID']
-    console.log('id = ' + id )
 }
 
-window.onload = function(){
-    for(;;){
-        xhrGet.open('GET', 'make-task', false);
-        xhrGet.send(null);
-        if (id == "0") break;
-        var count = showAllCurrentFunc(target);
-        xhrPost.open('POST', 'complete-task', false);
-        xhrPost.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-        xhrPost.send('taskID=' + id + '&' + 'result=' + count + '&' + 'target=' + target)
-    }
+var end = function(){
+    loading.style.display = 'none';
+    contents.classList.remove('hidden');
     setTimeout("location.href='/user-waiting'",3000)
 }
+
+var dig = function(){
+    console.log('dig start ')
+    xhrGet.open('GET', 'make-task', false);
+    xhrGet.send(null);
+    console.log('id = ' + id )
+    if (id == "0"){
+        end();
+        return;
+    }
+    var count = showAllCurrentFunc(target);
+    xhrPost.open('POST', 'complete-task', false);
+    xhrPost.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+    xhrPost.send('taskID=' + id + '&' + 'result=' + count + '&' + 'target=' + target)
+    // setTimeout(dig(),500);
+    dig();
+}
+
+// var mogu = document.getElementById('loading');
+
+// window.addEventListener("load", function(){
+//     var img = this.document.createElement('img');
+//     img.src = anime
+// }
+console.log('aa')
+document.getElementById('loading').innerHTML = '<img src="static/img/drill-250-250-30.gif" alt="sample">';
+// window.addEventListener("load", dig);
+setTimeout(dig, 500);
+// windows.onload = dig();
