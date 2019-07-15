@@ -1,6 +1,8 @@
 @charset "UTF-8";
 
 .mogumogu{
+  font-size: 50px;
+  font-weight: 900;
   cursor: pointer;
 }
 

@@ -80,7 +80,6 @@ const updateTimeText = () => {
 const countUp = () => {
   timerId = setTimeout(() => {
     elapsedTime = Date.now() - startTime;
-    updateTimeText();
     countUp();
   }, 10);
 };
