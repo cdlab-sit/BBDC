@@ -1,29 +1,49 @@
 // 参照先を格納
-var ground_b = "../gif/ground-before-250-250.gif";
-var ground_a = "../gif/ground-after-250-250.gif";
-var sutegoro = "../gif/sutegoro-250-250-30.gif";
-var pickeler = "../gif/pickel-250-250-30.gif";
-var driller = "../gif/drill-250-250-30.gif";
-var parking = "../gif/parking-250-250.gif";
-var diamond = "../gif/treasure-250-250-30.gif";
-var yattane = "../gif/yattane-250-250-30.gif";
+const ground_b = "../gif/ground-before-250-250.gif";
+const ground_a = "../gif/ground-after-250-250.gif";
+const sutegoro = "../gif/sutegoro-250-250-30.gif";
+const pickeler = "../gif/pickel-250-250-30.gif";
+const driller = "../gif/drill-250-250-30.gif";
+const parking = "../gif/parking-250-250.gif";
+const diamond = "../gif/treasure-250-250-30.gif";
+const yattane = "../gif/yattane-250-250-30.gif";
 
 // 14パターンの参照先を格納した配列を場所ごとに用意
-var l1c1_src = new Array(sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
-var l1c2_src = new Array(ground_b,sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
-var l1c3_src = new Array(ground_b,ground_b,sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
-var l1c4_src = new Array(ground_b,ground_b,ground_b,sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
-var l2c4_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
-var l2c3_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
-var l2c2_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
-var l2c1_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a);
-var l3c1_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,driller,ground_a,ground_a,ground_a);
-var l3c2_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,driller,ground_a,ground_a);
-var l3c3_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,driller,parking);
-var l3c4_src = new Array(diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,yattane);
-var num = 0;
+const l1c1_src = new Array(sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
+const l1c2_src = new Array(ground_b,sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
+const l1c3_src = new Array(ground_b,ground_b,sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
+const l1c4_src = new Array(ground_b,ground_b,ground_b,sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
+const l2c4_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
+const l2c3_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
+const l2c2_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
+const l2c1_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a);
+const l3c1_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,driller,ground_a,ground_a,ground_a);
+const l3c2_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,driller,ground_a,ground_a);
+const l3c3_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,driller,parking);
+const l3c4_src = new Array(diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,yattane);
+let num = 0;
 
-const mogumogu = document.getElementById('mogumogu')
+// const digtimer = document.getElementById('digtimer');
+// const clear = document.getElementById('clear');
+const mogumogu = document.getElementById('mogumogu');
+const timer = document.getElementById("timer");
+
+// 経過時間を保存する変数（単位:ミリ秒）
+let elapsedTime;
+// スタートボタンを押したときのUnix Epoch
+let startTime;
+// タイマーのID
+let timerId;
+
+
+// ページが読み込まれた時にタイム計測開始
+window.onload = function(){
+  // digtimer.style.visibility="hidden";
+  // clear.style.visibility="hidden";
+  startTime = Date.now();
+  countUp();
+}
+
 mogumogu.addEventListener('click', function(){
   // 画像全てを表示パターンごとに読み込み直す
   if(num < 13){
@@ -33,6 +53,8 @@ mogumogu.addEventListener('click', function(){
         location.href = './menu.html?time=' + String(elapsedTime);
       }, 5000)
       num++;
+      document.getElementById("l3c4").src=l3c4_src[num];
+
     }
     else num ++;
     document.getElementById("l1c1").src=l1c1_src[num];
@@ -46,18 +68,8 @@ mogumogu.addEventListener('click', function(){
     document.getElementById("l3c1").src=l3c1_src[num];
     document.getElementById("l3c2").src=l3c2_src[num];
     document.getElementById("l3c3").src=l3c3_src[num];
-    document.getElementById("l3c4").src=l3c4_src[num];
   }
 });
-
-const timer = document.getElementById("timer");
-
-// 経過時間を保存する変数（単位:ミリ秒）
-let elapsedTime;
-// スタートボタンを押したときのUnix Epoch
-let startTime;
-// タイマーのID
-let timerId;
 
 // 表示される内容をアップデートする関数
 const updateTimeText = () => {
@@ -83,9 +95,3 @@ const countUp = () => {
     countUp();
   }, 10);
 };
-
-// ページが読み込まれた時にタイム計測開始
-window.onload = function(){
-  startTime = Date.now();
-  countUp();
-}

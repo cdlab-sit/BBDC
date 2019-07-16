@@ -4,8 +4,15 @@
   cursor: pointer;
 }
 
-#timer{
+#menutimer{
+  color: #272727;
   font-size: 50px;
+  font-weight: 900;
+}
+
+#digtimer{
+  color: #ebfffe;
+  font-size: 100px;
   font-weight: 900;
 }
 
