@@ -43,7 +43,7 @@ xhrGet.onload = function(){
 var end = function(){
     loading.style.display = 'none';
     contents.classList.remove('hidden');
-    // setTimeout("location.href='/user-waiting'",3000);
+    setTimeout("location.href='/user-waiting'",3000);
 }
 
 var dig = function(){
