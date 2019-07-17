@@ -15,16 +15,13 @@ function judgePrimeNumber(n) {
 };
 
 function showAllCurrentFunc(n, func) {
-    // document.write("数値:" + n + "を計算<br><br>");
-    // const startTime = Date.now();
     var count = 0;
     for (let i = 1; i < n; i++) {
+        setTimeout(judgePrimeNumber(i),1000);
         if(judgePrimeNumber(i)){
             count++;
         }
     }
-    // const endTime = Date.now();
-    // document.write(endTime - startTime + "ミリ秒<br>");
     return count;
 };
 
@@ -40,20 +37,20 @@ xhrPost.onload = function(){
 xhrGet.onload = function(){
     var response = JSON.parse(xhrGet.response);
     target = response["target"];
-    id = response['taskID']
+    id = response['taskID'];
 }
 
 var end = function(){
     loading.style.display = 'none';
     contents.classList.remove('hidden');
-    setTimeout("location.href='/user-waiting'",3000)
+    // setTimeout("location.href='/user-waiting'",3000);
 }
 
 var dig = function(){
-    console.log('dig start ')
+    // console.log('dig start ');
     xhrGet.open('GET', 'make-task', false);
     xhrGet.send(null);
-    console.log('id = ' + id )
+    // console.log('id = ' + id );
     if (id == "0"){
         end();
         return;
@@ -61,19 +58,8 @@ var dig = function(){
     var count = showAllCurrentFunc(target);
     xhrPost.open('POST', 'complete-task', false);
     xhrPost.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-    xhrPost.send('taskID=' + id + '&' + 'result=' + count + '&' + 'target=' + target)
-    // setTimeout(dig(),500);
+    xhrPost.send('taskID=' + id + '&' + 'result=' + count + '&' + 'target=' + target);
     dig();
 }
 
-// var mogu = document.getElementById('loading');
-
-// window.addEventListener("load", function(){
-//     var img = this.document.createElement('img');
-//     img.src = anime
-// }
-console.log('aa')
-document.getElementById('loading').innerHTML = '<img src="static/img/drill-250-250-30.gif" alt="sample">';
-// window.addEventListener("load", dig);
 setTimeout(dig, 500);
-// windows.onload = dig();
