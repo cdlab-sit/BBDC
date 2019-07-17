@@ -9,6 +9,12 @@ if not os.path.exists('csv'):
 
 @app.route('/host')
 def host():
+    with open(filename,'r',newline='') as csvfile:
+        tasks = (len(csvfile.readlines())-2)/13 
+    return int(tasks)
+
+@app.route('/host-waiting')
+def index():
     global filename
     dt_now = datetime.datetime.now()
     filename = 'csv/' + dt_now.strftime('%Y_%m_%d_%H:%M:%S')
@@ -17,19 +23,15 @@ def host():
         writer.writerow(['taskID','target','result'])
         writer.writerow(['0','0','0'])
         print('just made file')
-    return 'go'
-
-@app.route('/host-waiting')
-def index():
     return "待機"
-
-@app.route('/user-waiting')
-def client_waiting():
-    return render_template('user-waiting.html')
 
 @app.route('/user')
 def cliant():
     return render_template('user.html')
+
+@app.route('/user-waiting')
+def client_waiting():
+    return render_template('user-waiting.html')
 
 @app.route('/make-task')
 def make():
@@ -47,7 +49,7 @@ def make():
         "taskID": taskID,
     }
     with open(filename,'r',newline='') as csvfile:
-        if(len(csvfile.readlines())>=22):
+        if(len(csvfile.readlines())>=39+2):
             info = {
                 "target": 0,
                 "taskID": 0,
