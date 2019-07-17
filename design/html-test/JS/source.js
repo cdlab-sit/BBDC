@@ -8,19 +8,21 @@ const parking = "../gif/parking-250-250.gif";
 const diamond = "../gif/treasure-250-250-30.gif";
 const yattane = "../gif/yattane-250-250-30.gif";
 
+// 仕様変更により未使用
 // 14パターンの参照先を格納した配列を場所ごとに用意
-const l1c1_src = new Array(sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
-const l1c2_src = new Array(ground_b,sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
-const l1c3_src = new Array(ground_b,ground_b,sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
-const l1c4_src = new Array(ground_b,ground_b,ground_b,sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
-const l2c4_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
-const l2c3_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
-const l2c2_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
-const l2c1_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a);
-const l3c1_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,driller,ground_a,ground_a,ground_a);
-const l3c2_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,driller,ground_a,ground_a);
-const l3c3_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,driller,parking);
-const l3c4_src = new Array(diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,yattane);
+// const l1c1_src = new Array(sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
+// const l1c2_src = new Array(ground_b,sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
+// const l1c3_src = new Array(ground_b,ground_b,sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
+// const l1c4_src = new Array(ground_b,ground_b,ground_b,sutegoro,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
+// const l2c4_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
+// const l2c3_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
+// const l2c2_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a,ground_a);
+// const l2c1_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,pickeler,ground_a,ground_a,ground_a,ground_a,ground_a);
+// const l3c1_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,driller,ground_a,ground_a,ground_a);
+// const l3c2_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,driller,ground_a,ground_a);
+// const l3c3_src = new Array(ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,ground_b,driller,parking);
+// const l3c4_src = new Array(diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,diamond,yattane);
+// ここまで未使用
 let num = 0;
 
 // const digtimer = document.getElementById('digtimer');
@@ -47,27 +49,93 @@ window.onload = function(){
 mogumogu.addEventListener('click', function(){
   // 画像全てを表示パターンごとに読み込み直す
   if(num < 13){
-    if (num == 12) {
-      clearTimeout(timerId);
-      setTimeout(function() {
-        location.href = './menu.html?time=' + String(elapsedTime);
-      }, 5000)
-      num++;
-      document.getElementById("l3c4").src=l3c4_src[num];
+    // 仕様変更により未使用
+    // if (num == 12) {
+    //   clearTimeout(timerId);
+    //   setTimeout(function() {
+    //     location.href = './menu.html?time=' + String(elapsedTime);
+    //   }, 5000)
+    //   num++;
+    //   document.getElementById("l3c4").src=l3c4_src[num];
+    //
+    // }
+    // else num ++;
+    // document.getElementById("l1c1").src=l1c1_src[num];
+    // document.getElementById("l1c2").src=l1c2_src[num];
+    // document.getElementById("l1c3").src=l1c3_src[num];
+    // document.getElementById("l1c4").src=l1c4_src[num];
+    // document.getElementById("l2c1").src=l2c1_src[num];
+    // document.getElementById("l2c2").src=l2c2_src[num];
+    // document.getElementById("l2c3").src=l2c3_src[num];
+    // document.getElementById("l2c4").src=l2c4_src[num];
+    // document.getElementById("l3c1").src=l3c1_src[num];
+    // document.getElementById("l3c2").src=l3c2_src[num];
+    // document.getElementById("l3c3").src=l3c3_src[num];
+    // ここまで未使用
 
+    num++;
+    switch (num) {
+      case 1:
+        document.getElementById("l1c1").src=ground_a;
+        document.getElementById("l1c2").src=sutegoro;
+        break;
+      case 2:
+        document.getElementById("l1c2").src=ground_a;
+        document.getElementById("l1c3").src=sutegoro;
+        break;
+      case 3:
+        document.getElementById("l1c3").src=ground_a;
+        document.getElementById("l1c4").src=sutegoro;
+        break;
+      case 4:
+        document.getElementById("l1c1").src=ground_a;
+        document.getElementById("l1c2").src=ground_a;
+        document.getElementById("l1c3").src=ground_a;
+        document.getElementById("l1c4").src=ground_a;
+        break;
+      case 5:
+        document.getElementById("l2c4").src=pickeler;
+        break;
+      case 6:
+        document.getElementById("l2c3").src=pickeler;
+        document.getElementById("l2c4").src=ground_a;
+        break;
+      case 7:
+        document.getElementById("l2c2").src=pickeler;
+        document.getElementById("l2c3").src=ground_a;
+        break;
+      case 8:
+        document.getElementById("l2c1").src=pickeler;
+        document.getElementById("l2c2").src=ground_a;
+        break;
+      case 9:
+        document.getElementById("l2c1").src=ground_a;
+        document.getElementById("l2c2").src=ground_a;
+        document.getElementById("l2c3").src=ground_a;
+        document.getElementById("l2c4").src=ground_a;
+        break;
+      case 10:
+        document.getElementById("l3c1").src=driller;
+        break;
+      case 11:
+        document.getElementById("l3c1").src=ground_a;
+        document.getElementById("l3c2").src=driller;
+        break;
+      case 12:
+        document.getElementById("l3c2").src=ground_a;
+        document.getElementById("l3c3").src=driller;
+        break;
+      case 13:
+        document.getElementById("l3c1").src=ground_a;
+        document.getElementById("l3c2").src=ground_a;
+        document.getElementById("l3c3").src=parking;
+        document.getElementById("l3c4").src=yattane;
+        clearTimeout(timerId);
+        setTimeout(function() {
+          location.href = './menu.html?time=' + String(elapsedTime);
+        }, 5000)
+        break;
     }
-    else num ++;
-    document.getElementById("l1c1").src=l1c1_src[num];
-    document.getElementById("l1c2").src=l1c2_src[num];
-    document.getElementById("l1c3").src=l1c3_src[num];
-    document.getElementById("l1c4").src=l1c4_src[num];
-    document.getElementById("l2c1").src=l2c1_src[num];
-    document.getElementById("l2c2").src=l2c2_src[num];
-    document.getElementById("l2c3").src=l2c3_src[num];
-    document.getElementById("l2c4").src=l2c4_src[num];
-    document.getElementById("l3c1").src=l3c1_src[num];
-    document.getElementById("l3c2").src=l3c2_src[num];
-    document.getElementById("l3c3").src=l3c3_src[num];
   }
 });
 
