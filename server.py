@@ -12,8 +12,8 @@ if not os.path.exists('csv'):
 
 @app.route('/host')
 def host():
-    return 'host'
-    # return render_template('moguchan.html')
+    # return 'host'
+    return render_template('moguchan.html')
 
 @app.route('/host-waiting')
 def index():
@@ -25,8 +25,8 @@ def index():
         writer.writerow(['taskID','target','result'])
         writer.writerow(['0','0','0'])
         print('just made file')
-    return 'host-waiting'
-    # return render_template('menu.html')
+    # return 'host-waiting'
+    return render_template('menu.html')
 
 # userからrequestを受けとり、タスクの進行度を返す
 @app.route('/host-task')
