@@ -55,6 +55,7 @@ var dig = function(){
         end();
         return;
     }
+    document.getElementById("num").innerText = id;
     var count = showAllCurrentFunc(target);
     xhrPost.open('POST', 'complete-task', false);
     xhrPost.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
