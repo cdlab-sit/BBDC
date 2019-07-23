@@ -1,11 +1,21 @@
-#loading {
+#loading{
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	text-align: center;
-  }
+	/* font-size: 80%; */
+}
+
+#loading p{
+	font-size: 250%;
+}
 
 .hidden{
 	display: none;
+}
+
+#num {
+	font-size: 500%;
+
 }
