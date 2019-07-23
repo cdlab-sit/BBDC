@@ -1,7 +1,7 @@
 // 参照先を格納
-const ground_b = "img/ground-before-250-250.gif";
-const ground_a = "img/ground-after-250-250.gif";
-const sutegoro = "img/sutegoro-250-250-30.gif";
+const ground_b = "static/img/ground-before-250-250.gif";
+const ground_a = "static/img/ground-after-250-250.gif";
+const sutegoro = "static/img/sutegoro-250-250-30.gif";
 const pickeler = "static/img/pickel-250-250-30.gif";
 const driller = "static/img/drill-250-250-30.gif";
 const parking = "static/img/parking-250-250.gif";
@@ -132,7 +132,7 @@ mogumogu.addEventListener('click', function(){
         document.getElementById("l3c4").src=yattane;
         clearTimeout(timerId);
         setTimeout(function() {
-          location.href = './menu.html?time=' + String(elapsedTime);
+          location.href = './host-waiting?time=' + String(elapsedTime);
         }, 5000)
         break;
     }
