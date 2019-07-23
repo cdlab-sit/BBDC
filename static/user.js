@@ -50,17 +50,18 @@ var dig = function(){
     // console.log('dig start ');
     xhrGet.open('GET', 'make-task', false);
     xhrGet.send(null);
-    // console.log('id = ' + id );
+    console.log('id = ' + id );
     if (id == "0"){
         end();
         return;
     }
-    document.getElementById("num").innerText = id;
+    console.log('JS, target =' +  target)
+    document.getElementById("num").innerText = target;
     var count = showAllCurrentFunc(target);
     xhrPost.open('POST', 'complete-task', false);
     xhrPost.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
     xhrPost.send('taskID=' + id + '&' + 'result=' + count + '&' + 'target=' + target);
-    dig();
+    setTimeout(dig, 0);
 }
 
 setTimeout(dig, 500);
