@@ -3,14 +3,16 @@ import csv, random, datetime, os
 
 app = Flask(__name__)
 
-filename = ''
-taskID = 0
-TASK_NUM = 13
-task_count = 0
+filename = ''   #　作成するcsvファイル名
+taskID = 0      #　タスクに割り振られるID
+TASK_NUM = 13   #　処理するタスクの総数
+task_count = 0  #　ホストに伝え終わったタスクのユニット数
 
+# csvディレクトリが存在しない場合にcsvディレクトリを作成
 if not os.path.exists('csv'):
     os.mkdir('csv')
 
+# レスポンスのヘッダーにキャッシュを保存させない指定
 @app.after_request
 def add_header(r):
     """
@@ -23,13 +25,17 @@ def add_header(r):
     r.headers['Cache-Control'] = 'public, max-age=0'
     return r
 
+# ホスト側の処理中
+# csvファイルを作成し、htmlファイルを返す
 @app.route('/host')
 def host():
+    # 2週目以降のために初期化
     global filename,taskID,task_count
     filename = ''
     taskID = 0
     task_count = 0
 
+    # データを保存するcsvファイルを作成
     dt_now = datetime.datetime.now()
     filename = 'csv/' + dt_now.strftime('%Y_%m_%d_%H:%M:%S')
     with open(filename,'w') as csvfile:
@@ -39,11 +45,13 @@ def host():
         print('just made file')
     return render_template('moguchan.html')
 
+# ホスト側の待機
+# htmlファイルを返す
 @app.route('/host-waiting')
 def index():
     return render_template('menu.html')
 
-# userからrequestを受けとり、タスクの進行度を返す
+# hostからrequestを受けとり、タスクのユニット進行度を返す
 @app.route('/host-task')
 def host_task(): 
     global task_count
@@ -58,21 +66,28 @@ def host_task():
     if((task - task_count*unit) >= unit):
         result = 'true'
         task_count = task_count+1
-    print('in /host-task :' + result)
+    # print('in /host-task :' + result)
     return result
 
-@app.route('/test')
-def test():
-    return render_template('test_host-task.html')
+# デバッグ用
+# @app.route('/test')
+# def test():
+#     return render_template('test_host-task.html')
 
+# ユーザー側の処理中
+# htmlファイルを返す
 @app.route('/user')
 def cliant():
     return render_template('user.html')
 
+# ユーザー側の待機
+# htmlファイルを返す
 @app.route('/user-waiting')
 def client_waiting():
     return render_template('user-waiting.html')
 
+# ユーザーにタスクを割り振る
+# タスクをjson形式で返す
 @app.route('/make-task')
 def make():
     global taskID, TASK_NUM
@@ -97,7 +112,8 @@ def make():
                 }    
     return jsonify(info)
 
-# /user で user.js により呼び出される 
+# /user で user.js により呼び出される
+# タスク終了時にcsvファイルにタスクの情報を書き込む 
 @app.route('/complete-task', methods=['POST'])
 def complete():
     global filename
@@ -109,5 +125,6 @@ def complete():
         writer.writerow([request.form['taskID'],request.form['target'],request.form['result']])
     return 'complete-task'
 
+# flask 設定
 if __name__ == "__main__":
     app.run(threaded=True, debug=True, host='0.0.0.0', port=5000)
