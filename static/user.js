@@ -39,12 +39,25 @@ var end = function(){
     setTimeout("location.href='/user-waiting'",3000);
 }
 
+var notReady = function(){
+    let contents = document.getElementsByClassName('contents');
+    for(var i = 1; i < contents.length; i++) {
+        contents[i].style.display = "none";
+    }
+    contents[0].innerText = "モグちゃんの準備が整っていないようです...";
+    setTimeout("location.href='/user-waiting'",3000);
+}
+
 var dig = function(){
     xhrGet.open('GET', 'make-task', false);
     xhrGet.send(null);
     console.log('id = ' + id );
     if (id == "0"){
         end();
+        return;
+    }
+    else if(id == -1){
+        notReady();
         return;
     }
     console.log('JS, target =' +  target)
