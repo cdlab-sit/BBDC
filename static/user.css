@@ -7,12 +7,15 @@
 	/* font-size: 80%; */
 }
 
-#loading p{
+/* #loading p{
+	position: absolute;
+	top: 74%;
+	left: 35%;
 	font-size: 250%;
 	white-space: nowrap;
-}
+} */
 
-.contents{
+#contents{
 	font-size: 250%;
 	white-space: nowrap;
 }
