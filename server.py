@@ -10,6 +10,18 @@ TASK_NUM = 13
 if not os.path.exists('csv'):
     os.mkdir('csv')
 
+@app.after_request
+def add_header(r):
+    """
+    Add headers to both force latest IE rendering engine or Chrome Frame,
+    and also to cache the rendered page for 10 minutes.
+    """
+    r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    r.headers["Pragma"] = "no-cache"
+    r.headers["Expires"] = "0"
+    r.headers['Cache-Control'] = 'public, max-age=0'
+    return r
+
 @app.route('/host')
 def host():
     # return 'host'
@@ -31,9 +43,13 @@ def index():
 # userからrequestを受けとり、タスクの進行度を返す
 @app.route('/host-task')
 def host_task():
+    unit = TASK_NUM/13
     with open(filename,'r',newline='') as csvfile:
-        tasks = (len(csvfile.readlines())-2)/13 
-    return int(tasks)
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            task = row['taskID']
+        print(task/unit)
+    return int(task/unit)
 
 @app.route('/user')
 def cliant():
@@ -57,10 +73,10 @@ def make():
     }
     with open(filename,'r',newline='') as csvfile:
         reader = csv.DictReader(csvfile)
-        print(type(reader))
+        # print(type(reader))
         for row in reader:
             # print("in /make-task taskID:" + row['taskID'])
-            if(int(row['taskID']) == TASK_NUM):
+            if(int(row['taskID']) >= TASK_NUM):
                 print("39 yeah")
                 info = {
                     "target": 0,
