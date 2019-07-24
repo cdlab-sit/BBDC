@@ -49,7 +49,7 @@ def host_task():
         for row in reader:
             task = row['taskID']
         print(task/unit)
-    return task/unit
+    return int(task/unit)
 
 @app.route('/user')
 def cliant():
