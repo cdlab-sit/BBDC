@@ -12,11 +12,12 @@
 	white-space: nowrap;
 }
 
-.hidden{
-	display: none;
+.contents{
+	font-size: 250%;
+	white-space: nowrap;
 }
 
 #num {
 	font-size: 500%;
-
+	font-weight: 900;
 }
