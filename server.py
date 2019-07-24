@@ -6,6 +6,7 @@ app = Flask(__name__)
 filename = ''
 taskID = 0
 TASK_NUM = 13
+task_count = 0
 
 if not os.path.exists('csv'):
     os.mkdir('csv')
@@ -42,15 +43,21 @@ def index():
 
 # userからrequestを受けとり、タスクの進行度を返す
 @app.route('/host-task')
-def host_task():
+def host_task(): 
+    global task_count
+    result = 'false'
     unit = int(TASK_NUM/13)
+    if(task_count*unit >= TASK_NUM):
+        return ''
     with open(filename,'r',newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             task = int(row['taskID'])
-        task = int(task/unit)
-        print(str(task))
-    return str(task)
+    if((task - task_count*unit) >= unit):
+        result = 'true'
+        task_count = task_count+1
+    print('in /host-task :' + result)
+    return result
 
 @app.route('/test')
 def test():
@@ -82,7 +89,6 @@ def make():
         for row in reader:
             # print("in /make-task taskID:" + row['taskID'])
             if(int(row['taskID']) >= TASK_NUM):
-                print("39 yeah")
                 info = {
                     "target": 0,
                     "taskID": 0,
@@ -94,9 +100,9 @@ def make():
 def complete():
     global filename
     with open(filename,'a',newline='') as csvfile:
-        print("in /complete-task taskID:" + request.form['taskID'])
-        print("in /complete-task target:" + request.form['target'])
-        print("in /complete-task result:" + request.form['result'])
+        # print("in /complete-task taskID:" + request.form['taskID'])
+        # print("in /complete-task target:" + request.form['target'])
+        # print("in /complete-task result:" + request.form['result'])
         writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
         writer.writerow([request.form['taskID'],request.form['target'],request.form['result']])
     return 'complete-task'
