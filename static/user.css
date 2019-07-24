@@ -9,6 +9,7 @@
 
 #loading p{
 	font-size: 250%;
+	white-space: nowrap;
 }
 
 .hidden{

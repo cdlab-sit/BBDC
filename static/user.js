@@ -1,9 +1,9 @@
 "use strict";
 
 // loadingのdivを取得
-var loading = document.getElementById('loading');
+
 // contentsのdivを取得
-var contents = document.getElementById('contents');
+
 
 
 function judgePrimeNumber(n) {
@@ -41,8 +41,13 @@ xhrGet.onload = function(){
 }
 
 var end = function(){
-    loading.style.display = 'none';
-    contents.classList.remove('hidden');
+    // var contents = document.getElementById('contents');
+    // var contents = document.getElementById('contents');
+    // cobtents.style.display = 'none';
+    // contents.classList.remove('hidden');
+    // console.log('end')
+    document.getElementById("contents").innerText = "モグちゃんが宝を見つけました!";
+    document.getElementById("num").innerText = "";
     setTimeout("location.href='/user-waiting'",3000);
 }
 
