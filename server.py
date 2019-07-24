@@ -5,14 +5,14 @@ app = Flask(__name__)
 
 filename = ''   #　作成するcsvファイル名
 taskID = 0      #　タスクに割り振られるID
-TASK_NUM = 13   #　処理するタスクの総数
+TASK_NUM = 500   #　処理するタスクの総数
 task_count = 0  #　ホストに伝え終わったタスクのユニット数
 
 # csvディレクトリが存在しない場合にcsvディレクトリを作成
 if not os.path.exists('csv'):
     os.mkdir('csv')
 
-# キャッシュを保存させない指定
+# 　キャッシュを保存させない指定
 @app.after_request
 def add_header(r):
     """
@@ -59,10 +59,13 @@ def host_task():
     unit = int(TASK_NUM/13)
     if(task_count*unit > TASK_NUM):
         return result
-    with open(filename,'r',newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            task = int(row['taskID'])
+    try:
+        with open(filename,'r',newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                task = int(row['taskID'])
+    except:
+        result = 'false'
     if((task - task_count*unit) >= unit):
         result = 'true'
         task_count = task_count+1
@@ -100,16 +103,22 @@ def make():
         "target": target,
         "taskID": taskID,
     }
-    with open(filename,'r',newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        # print(type(reader))
-        for row in reader:
-            # print("in /make-task taskID:" + row['taskID'])
-            if(int(row['taskID']) >= TASK_NUM):
-                info = {
-                    "target": 0,
-                    "taskID": 0,
-                }    
+    try:
+        with open(filename,'r',newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            # print(type(reader))
+            for row in reader:
+                # print("in /make-task taskID:" + row['taskID'])
+                if(int(row['taskID']) >= TASK_NUM):
+                    info = {
+                        "target": 0,
+                        "taskID": 0,
+                    }   
+    except:
+        info = {
+            "target": -1,
+            "taskID": -1,
+        }
     return jsonify(info)
 
 # /user で user.js により呼び出される
