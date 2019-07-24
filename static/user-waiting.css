@@ -2,16 +2,39 @@ a img{
   border: none;
 }
 
-#user-menu{
-	position: absolute;
-	top: 40%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+.image{
 	text-align: center;
-	/* font-size: 80%; */
 }
 
-#loading p{
-	font-size: 250%;
-	white-space: nowrap;
+.sp{
+  padding: 0 0 300px 0;
+}
+
+.line{
+  height: 250px;
+  display: flex;
+  flex-direction: row;
+}
+
+.centerh{
+  font-size: 300%;
+  text-align: center;
+}
+
+.text{
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  text-transform: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  font-family: "YakuHanJP", "Sans", sans-serif;
+  font-weight: 400;
+  color: #444;
+  font-size: 32px;
+  text-align: left;
+  vertical-align: baseline;
+  background: transparent;
+  line-height: 1.5;
 }
