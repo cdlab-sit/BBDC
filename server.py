@@ -43,13 +43,18 @@ def index():
 # userからrequestを受けとり、タスクの進行度を返す
 @app.route('/host-task')
 def host_task():
-    unit = TASK_NUM/13
+    unit = int(TASK_NUM/13)
     with open(filename,'r',newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            task = row['taskID']
-        print(task/unit)
-    return int(task/unit)
+            task = int(row['taskID'])
+        task = int(task/unit)
+        print(str(task))
+    return str(task)
+
+@app.route('/test')
+def test():
+    return render_template('test_host-task.html')
 
 @app.route('/user')
 def cliant():
