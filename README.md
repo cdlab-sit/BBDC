@@ -3,6 +3,7 @@
 
 ## 穴掘れ!モグちゃん!!
 ### [クリックで掘り進むデモページ](https://cdlab-sit.github.io/BBDC/design/html-test/menu.html)  
+### [モグちゃんの説明ページ](https://cdlab-sit.github.io/BBDC/templates/description.html)  
 
 #### お客様用QRコード
 ![QR](./design/other-imges/qrcode-moguchan.png)
