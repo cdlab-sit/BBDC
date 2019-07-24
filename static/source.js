@@ -10,8 +10,7 @@ const yattane = "static/img/yattane-250-250-30.gif";
 
 let num = 0;
 
-// const digtimer = document.getElementById('digtimer');
-// const clear = document.getElementById('clear');
+const digtimer = document.getElementById('digtimer');
 const mogumogu = document.getElementById('mogumogu');
 const timer = document.getElementById("timer");
 
@@ -91,7 +90,20 @@ mogumogu.addEventListener('click', function(){
         document.getElementById("l3c2").src=ground_a;
         document.getElementById("l3c3").src=parking;
         document.getElementById("l3c4").src=yattane;
+
+        let clear = document.createElement('div');
+        clear.style.position = 'absolute';
+
+        let clearimg = document.createElement('img');
+        clearimg.src='static/img/clear.png';
+        clearimg.alt='clear';
+        document.getElementById('clear').appendChild(clearimg);
+
         clearTimeout(timerId);
+        document.getElementById('digtimer').innerText = '00:00:000';
+        updateTimeText();
+
+
         setTimeout(function() {
           location.href = './host-waiting?time=' + String(elapsedTime);
         }, 5000)
@@ -114,7 +126,7 @@ const updateTimeText = () => {
   s = `0${s}`.slice(-2);
   ms = `00${ms}`.slice(-3);
 
-  timer.textContent = `${m}:${s}:${ms}`;
+  digtimer.textContent = `${m}:${s}:${ms}`;
 };
 
 // 経過時間の管理と計算を行う関数
