@@ -11,7 +11,7 @@ const yattane = "static/img/yattane-250-250-30.gif";
 let num = 0;
 
 const digtimer = document.getElementById('digtimer');
-const mogumogu = document.getElementById('mogumogu');
+// const mogumogu = document.getElementById('mogumogu');
 const timer = document.getElementById("timer");
 
 // 経過時間を保存する変数（単位:ミリ秒）
@@ -28,12 +28,14 @@ window.onload = function(){
   // clear.style.visibility="hidden";
   startTime = Date.now();
   countUp();
+  setInterval(sendGet, 1000);   
 }
 
-mogumogu.addEventListener('click', function(){
+// mogumogu.addEventListener('click', function(){
+const mogumogu = function(num){
+
   // 画像全てを表示パターンごとに読み込み直す
-  if(num < 13){
-    num++;
+
     switch (num) {
       case 1:
         document.getElementById("l1c1").src=ground_a;
@@ -108,9 +110,10 @@ mogumogu.addEventListener('click', function(){
           location.href = './host-waiting?time=' + String(elapsedTime);
         }, 5000)
         break;
-    }
+      default:
+          break;
   }
-});
+};
 
 // 表示される内容をアップデートする関数
 const updateTimeText = () => {
@@ -136,3 +139,16 @@ const countUp = () => {
     countUp();
   }, 10);
 };
+
+const xhrGet = new XMLHttpRequest();
+const sendGet = function(){
+  xhrGet.open('GET', 'host-task', false);
+  xhrGet.send(null);
+  
+}
+
+xhrGet.onload = function(){
+  if (this.responseText == 'true') num++;
+  mogumogu(num);
+  console.log('num = ' + num);
+}
