@@ -25,7 +25,11 @@ def add_header(r):
 
 @app.route('/host')
 def host():
-    global filename
+    global filename,taskID,task_count
+    filename = ''
+    taskID = 0
+    task_count = 0
+
     dt_now = datetime.datetime.now()
     filename = 'csv/' + dt_now.strftime('%Y_%m_%d_%H:%M:%S')
     with open(filename,'w') as csvfile:
