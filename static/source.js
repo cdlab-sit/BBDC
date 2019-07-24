@@ -28,7 +28,7 @@ window.onload = function(){
   // clear.style.visibility="hidden";
   startTime = Date.now();
   countUp();
-  setInterval(sendGet, 1000);   
+  setInterval(sendGet, 100);   
 }
 
 // mogumogu.addEventListener('click', function(){
