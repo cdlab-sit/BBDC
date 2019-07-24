@@ -25,11 +25,6 @@ def add_header(r):
 
 @app.route('/host')
 def host():
-    # return 'host'
-    return render_template('moguchan.html')
-
-@app.route('/host-waiting')
-def index():
     global filename
     dt_now = datetime.datetime.now()
     filename = 'csv/' + dt_now.strftime('%Y_%m_%d_%H:%M:%S')
@@ -38,7 +33,10 @@ def index():
         writer.writerow(['taskID','target','result'])
         writer.writerow(['0','0','0'])
         print('just made file')
-    # return 'host-waiting'
+    return render_template('moguchan.html')
+
+@app.route('/host-waiting')
+def index():
     return render_template('menu.html')
 
 # userからrequestを受けとり、タスクの進行度を返す
