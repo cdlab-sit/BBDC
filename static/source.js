@@ -148,7 +148,9 @@ const sendGet = function(){
 }
 
 xhrGet.onload = function(){
-  if (this.responseText == 'true') num++;
-  mogumogu(num);
+  if (this.responseText == 'true') {
+    num++;
+    mogumogu(num);
+  }
   console.log('num = ' + num);
 }
