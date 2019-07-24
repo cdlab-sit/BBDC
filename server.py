@@ -47,8 +47,8 @@ def host_task():
     global task_count
     result = 'false'
     unit = int(TASK_NUM/13)
-    if(task_count*unit >= TASK_NUM):
-        return ''
+    if(task_count*unit > TASK_NUM):
+        return result
     with open(filename,'r',newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
