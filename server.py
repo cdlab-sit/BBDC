@@ -12,7 +12,7 @@ task_count = 0  #　ホストに伝え終わったタスクのユニット数
 if not os.path.exists('csv'):
     os.mkdir('csv')
 
-# レスポンスのヘッダーにキャッシュを保存させない指定
+# キャッシュを保存させない指定
 @app.after_request
 def add_header(r):
     """
