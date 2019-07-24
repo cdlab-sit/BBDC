@@ -4,18 +4,18 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	text-align: center;
-	/* font-size: 80%; */
 }
 
-/* #loading p{
-	position: absolute;
-	top: 74%;
-	left: 35%;
+#loading p{
+	display: block;
+}
+
+.contents {
 	font-size: 250%;
 	white-space: nowrap;
-} */
+}
 
-#contents{
+#result {
 	font-size: 250%;
 	white-space: nowrap;
 }

@@ -1,11 +1,5 @@
 "use strict";
 
-// loadingのdivを取得
-
-// contentsのdivを取得
-
-
-
 function judgePrimeNumber(n) {
     if (n === 2) return true;
     for (let i = 2; i < n; i++) {
@@ -30,10 +24,6 @@ var xhrPost = new XMLHttpRequest();
 var id;
 var target;
 
-xhrPost.onload = function(){
-    // console.log(this.response)
-}
-
 xhrGet.onload = function(){
     var response = JSON.parse(xhrGet.response);
     target = response["target"];
@@ -41,18 +31,15 @@ xhrGet.onload = function(){
 }
 
 var end = function(){
-    // var contents = document.getElementById('contents');
-    // var contents = document.getElementById('contents');
-    // cobtents.style.display = 'none';
-    // contents.classList.remove('hidden');
-    // console.log('end')
-    document.getElementById("contents").innerText = "モグちゃんが宝を見つけました!";
-    document.getElementById("num").innerText = "";
+    let contents = document.getElementsByClassName('contents');
+    for(var i = 1; i < contents.length; i++) {
+        contents[i].style.display = "none";
+    }
+    contents[0].innerText = "モグちゃんが宝を見つけました!";
     setTimeout("location.href='/user-waiting'",3000);
 }
 
 var dig = function(){
-    // console.log('dig start ');
     xhrGet.open('GET', 'make-task', false);
     xhrGet.send(null);
     console.log('id = ' + id );
@@ -62,11 +49,67 @@ var dig = function(){
     }
     console.log('JS, target =' +  target)
     document.getElementById("num").innerText = target;
-    var count = showAllCurrentFunc(target);
+    var result = primeFactorization(target)
+    document.getElementById("result").innerText = result;
     xhrPost.open('POST', 'complete-task', false);
     xhrPost.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-    xhrPost.send('taskID=' + id + '&' + 'result=' + count + '&' + 'target=' + target);
+    xhrPost.send('taskID=' + id + '&' + 'result=' + result + '&' + 'target=' + target);
     setTimeout(dig, 0);
 }
 
 setTimeout(dig, 500);
+
+/*
+	引数:n-素因数分解する整数
+	値:nの素因数分解（{num:素因数, r:指数}を持つオブジェクト配列）
+*/
+var primeFactorization = function (n) {
+
+	// 平方根を保存
+	var s = Math.floor(Math.sqrt(n));
+
+	var r = 0;
+
+	var result = Array();
+
+	// 2から平方根までの素因数を求める
+	for (var i = 2;i <= s;i++) {
+
+		if ((n % i) == 0) {
+
+			r = 0; // 指数カウンタクリア
+
+			do {
+
+				r++; // 指数カウンタプラス
+
+				n = n / i;
+
+			} while ((n % i) == 0);
+
+			// 素因数iを指数とともに保存
+			result.push({num:i, r:r});
+
+		}
+
+	}
+
+	// 残った素数を追加
+	if (n > s) {
+		result.push({num:n, r:1});
+	}
+
+    // return result;
+    console.log(result);
+    var s = '';
+    for (var i = 0;i < result.length;i++) {
+
+		if (i > 0) {
+			s += '*';
+		}
+
+		s += result[i].num + '^' + result[i].r;
+    }
+    console.log(s);
+    return s;
+}

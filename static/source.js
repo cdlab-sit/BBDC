@@ -28,7 +28,7 @@ window.onload = function(){
   // clear.style.visibility="hidden";
   startTime = Date.now();
   countUp();
-  setInterval(sendGet, 1000);   
+  setInterval(sendGet, 100);   
 }
 
 // mogumogu.addEventListener('click', function(){
@@ -148,7 +148,9 @@ const sendGet = function(){
 }
 
 xhrGet.onload = function(){
-  if (this.responseText == 'true') num++;
-  mogumogu(num);
+  if (this.responseText == 'true') {
+    num++;
+    mogumogu(num);
+  }
   console.log('num = ' + num);
 }
