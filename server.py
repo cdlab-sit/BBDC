@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 filename = ''   #　作成するcsvファイル名
 taskID = 0      #　タスクに割り振られるID
-TASK_NUM = 500   #　処理するタスクの総数
+TASK_NUM = 1000   #　処理するタスクの総数
 task_count = 0  #　ホストに伝え終わったタスクのユニット数
 
 # csvディレクトリが存在しない場合にcsvディレクトリを作成
@@ -38,11 +38,14 @@ def host():
     # データを保存するcsvファイルを作成
     dt_now = datetime.datetime.now()
     filename = 'csv/' + dt_now.strftime('%Y_%m_%d_%H:%M:%S')
-    with open(filename,'w') as csvfile:
-        writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
-        writer.writerow(['taskID','target','result'])
-        writer.writerow(['0','0','0'])
-        print('just made file')
+    try:
+        with open(filename,'w') as csvfile:
+            writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
+            writer.writerow(['taskID','target','result'])
+            writer.writerow(['0','0','0'])
+            print('just made file')
+    except:
+        print("error")
     return render_template('moguchan.html')
 
 # ホスト側の待機
@@ -55,6 +58,7 @@ def index():
 @app.route('/host-task')
 def host_task(): 
     global task_count
+    task = 0
     result = 'false'
     unit = int(TASK_NUM/13)
     if(task_count*unit > TASK_NUM):
