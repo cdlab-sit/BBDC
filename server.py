@@ -1,16 +1,18 @@
+import psycopg2
 from flask import Flask, render_template, request, jsonify
 import csv, random, datetime, os
 
 app = Flask(__name__)
 
-filename = ''   #　作成するcsvファイル名
-taskID = 0      #　タスクに割り振られるID
-TASK_NUM = 1000   #　処理するタスクの総数
-task_count = 0  #　ホストに伝え終わったタスクのユニット数
-
-# csvディレクトリが存在しない場合にcsvディレクトリを作成
-if not os.path.exists('csv'):
-    os.mkdir('csv')
+count = 0
+filename = 'test'
+TASK_NUM = 1300   #　処理するタスクの総数
+unit = 0
+if(TASK_NUM >= 13):
+    unit = int(TASK_NUM/13)
+    print(unit)
+else:
+    print('error')
 
 # 　キャッシュを保存させない指定
 @app.after_request
@@ -29,57 +31,57 @@ def add_header(r):
 # csvファイルを作成し、htmlファイルを返す
 @app.route('/host')
 def host():
+    conn = psycopg2.connect("dbname=moguchan user=moguchan password=morihika")
+    cur = conn.cursor()
     # 2週目以降のために初期化
-    global filename,taskID,task_count
-    filename = ''
-    taskID = 0
-    task_count = 0
+    global filename
+    cur.execute("DROP TABLE %s;" % filename)
 
-    # データを保存するcsvファイルを作成
-    dt_now = datetime.datetime.now()
-    filename = 'csv/' + dt_now.strftime('%Y_%m_%d_%H:%M:%S')
-    try:
-        with open(filename,'w') as csvfile:
-            writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
-            writer.writerow(['taskID','target','result'])
-            writer.writerow(['0','0','0'])
-            print('just made file')
-    except:
-        print("error")
+    # データベースを作成
+    # dt_now = datetime.datetime.now()
+    # filename = dt_now.strftime('y%Ym%md%dh%Hm%Ms%S')
+    # print("in host:" + filename)
+    cur.execute("CREATE TABLE %s(taskID serial ,task integer ,result varchar(30) ,flag integer ,PRIMARY KEY(taskID))" % filename)
+
+    cur.execute("COMMIT")
+    cur.close()
+    conn.close()
+
     return render_template('moguchan.html')
 
 # ホスト側の待機
 # htmlファイルを返す
 @app.route('/host-waiting')
 def index():
+    # cur.execute("INSERT INTO %s (task, result,flag) VALUES (%d, '%s', %d);" % (filename,0,'0',0))
     return render_template('menu.html')
 
-# hostからrequestを受けとり、タスクのユニット進行度を返す
+# hostからrequestを受けとり、タスクの進行度を返す
 @app.route('/host-task')
 def host_task(): 
-    global task_count
-    task = 0
+    global count
+    conn = psycopg2.connect("dbname=moguchan user=moguchan password=morihika")
+    cur = conn.cursor()
     result = 'false'
-    unit = int(TASK_NUM/13)
-    if(task_count*unit > TASK_NUM):
-        return result
-    try:
-        with open(filename,'r',newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                task = int(row['taskID'])
-    except:
-        result = 'false'
-    if((task - task_count*unit) >= unit):
-        result = 'true'
-        task_count = task_count+1
-    # print('in /host-task :' + result)
-    return result
+    cur.execute("SELECT taskID,result FROM %s WHERE flag=0 AND result!='0';" % filename)
+    
+    stock_tasks = cur.fetchall()
+    if(stock_tasks != None):
+        if(len(stock_tasks)>=unit):
+            c = count
+            count = c+1
+            print(count)
+            result = 'true'
+            print(len(stock_tasks))
+            print('in host-task:true')
+            for i in range(unit):
+                cur.execute("UPDATE %s SET flag=1 WHERE taskID = %d;" % (filename,stock_tasks[i][0]))
 
-# デバッグ用
-# @app.route('/test')
-# def test():
-#     return render_template('test_host-task.html')
+    cur.execute("COMMIT")
+    cur.close()
+    conn.close()
+    
+    return result
 
 # ユーザー側の処理中
 # htmlファイルを返す
@@ -97,45 +99,52 @@ def client_waiting():
 # タスクをjson形式で返す
 @app.route('/make-task')
 def make():
-    global taskID, TASK_NUM
-    taskID+=1
+    conn = psycopg2.connect("dbname=moguchan user=moguchan password=morihika")
+    cur = conn.cursor()
     
     # 乱数生成
     target = random.randint(50000,100000)
-    #target = 50000 #test
-    info = {
-        "target": target,
-        "taskID": taskID,
-    }
-    try:
-        with open(filename,'r',newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            # print(type(reader))
-            for row in reader:
-                # print("in /make-task taskID:" + row['taskID'])
-                if(int(row['taskID']) >= TASK_NUM):
-                    info = {
-                        "target": 0,
-                        "taskID": 0,
-                    }   
-    except:
+    cur.execute("INSERT INTO %s (task, result,flag) VALUES (%d, '%s', %d);" % (filename,target,'0', 0))
+    cur.execute("SELECT taskID,task,result FROM %s WHERE result='0';" % filename)
+    taskID = cur.fetchone()
+    if(taskID != None):
         info = {
-            "target": -1,
-            "taskID": -1,
-        }
+            "target": target,
+            "taskID": int(taskID[0]),
+            }
+
+    cur.execute("SELECT taskID,result FROM %s WHERE flag=1;" % filename)
+    tasks = cur.fetchall()
+    if(tasks != None):
+        tasks = len(tasks)
+        print(tasks)
+        if(tasks>=TASK_NUM):
+            info = {
+                "target": 0,
+                "taskID": 0,
+            }  
+    cur.execute("COMMIT")
+    cur.close()
+    conn.close()
+    
+
     return jsonify(info)
 
 # /user で user.js により呼び出される
 # タスク終了時にcsvファイルにタスクの情報を書き込む 
 @app.route('/complete-task', methods=['POST'])
 def complete():
-    global filename
-    with open(filename,'a',newline='') as csvfile:
-        # print("in /complete-task taskID:" + request.form['taskID'])
-        # print("in /complete-task target:" + request.form['target'])
-        # print("in /complete-task result:" + request.form['result'])
-        writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
-        writer.writerow([request.form['taskID'],request.form['target'],request.form['result']])
+    conn = psycopg2.connect("dbname=moguchan user=moguchan password=morihika")
+    cur = conn.cursor()
+    
+    taskID = request.form['taskID']
+    result = request.form['result']
+    cur.execute("UPDATE %s SET result='%s' WHERE taskID='%s';" % (filename,result,taskID))
+
+    cur.execute("COMMIT")
+    cur.close()
+    conn.close()
+    
     return 'complete-task'
 
 # flask 設定
