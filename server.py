@@ -41,7 +41,7 @@ def host():
     cur = conn.cursor()
     # 2週目以降のために初期化
     global filename
-    # cur.execute("DROP TABLE %s;" % filename)
+    cur.execute("DROP TABLE %s;" % filename)
 
     # データベースを作成
     # dt_now = datetime.datetime.now()
