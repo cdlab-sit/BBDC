@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 count = 0
 filename = 'test'
-TASK_NUM = 1300   #　処理するタスクの総数
+TASK_NUM = 130   #　処理するタスクの総数
 unit = 0
 if(TASK_NUM >= 13):
     unit = int(TASK_NUM/13)
