@@ -134,7 +134,7 @@ def make():
 # タスク終了時にcsvファイルにタスクの情報を書き込む 
 @app.route('/complete-task', methods=['POST'])
 def complete():
-    conn = psycopg2.connect("dbname=moguchan user=moguchan password=morihika")
+    conn = psycopg2.connect("dbname=d38ht7676qu5i4 user=adhglqupkywiuh  password=de69ca1512a8ec40476ab8a61a1f73962046fc12b7d3923e760f9ac8f44aaa45")
     cur = conn.cursor()
     
     taskID = request.form['taskID']
