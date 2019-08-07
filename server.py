@@ -31,7 +31,7 @@ def add_header(r):
 # csvファイルを作成し、htmlファイルを返す
 @app.route('/host')
 def host():
-    conn = psycopg2.connect("dbname=moguchan user=moguchan password=morihika")
+    conn = psycopg2.connect("dbname=d38ht7676qu5i4 user=adhglqupkywiuh  password=de69ca1512a8ec40476ab8a61a1f73962046fc12b7d3923e760f9ac8f44aaa45")
     cur = conn.cursor()
     # 2週目以降のために初期化
     global filename
@@ -60,7 +60,7 @@ def index():
 @app.route('/host-task')
 def host_task(): 
     global count
-    conn = psycopg2.connect("dbname=moguchan user=moguchan password=morihika")
+    conn = psycopg2.connect("dbname=d38ht7676qu5i4 user=adhglqupkywiuh  password=de69ca1512a8ec40476ab8a61a1f73962046fc12b7d3923e760f9ac8f44aaa45")
     cur = conn.cursor()
     result = 'false'
     cur.execute("SELECT taskID,result FROM %s WHERE flag=0 AND result!='0';" % filename)
@@ -99,7 +99,7 @@ def client_waiting():
 # タスクをjson形式で返す
 @app.route('/make-task')
 def make():
-    conn = psycopg2.connect("dbname=moguchan user=moguchan password=morihika")
+    conn = psycopg2.connect("dbname=d38ht7676qu5i4 user=adhglqupkywiuh  password=de69ca1512a8ec40476ab8a61a1f73962046fc12b7d3923e760f9ac8f44aaa45")
     cur = conn.cursor()
     
     # 乱数生成
