@@ -17,7 +17,7 @@ else:
 HOST="ec2-107-22-211-248.compute-1.amazonaws.com"
 PORT="5432"
 DATABASE="d38ht7676qu5i4"
-USER="adhglqupkywiuh "
+USER="adhglqupkywiuh"
 PASSWORD="de69ca1512a8ec40476ab8a61a1f73962046fc12b7d3923e760f9ac8f44aaa45"
 
 # 　キャッシュを保存させない指定
