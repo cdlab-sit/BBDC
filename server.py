@@ -42,8 +42,7 @@ def host():
     cur = conn.cursor()
     # 2週目以降のために初期化
     global filename
-    check_table=0
-    table = '(\'moguchan\',)' 
+    check_table=0 
     cur.execute("SELECT relname FROM pg_stat_user_tables;")
     tables=cur.fetchall()
     
@@ -52,10 +51,7 @@ def host():
 
     if(tables != None):
         for i in tables:
-            print(i[0])
-            print(table)
             if(filename == i[0]):
-                print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
                 check_table=1
             else:
                 print("nono")
@@ -140,12 +136,10 @@ def make():
             "taskID": int(taskID[0]),
             }
 
-    cur.execute("SELECT taskID,result FROM %s WHERE flag=1;" % filename)
-    tasks = cur.fetchall()
-    if(tasks != None):
-        tasks = len(tasks)
-        print(tasks)
-        if(tasks>=TASK_NUM):
+    cur.execute("SELECT relname FROM pg_stat_user_tables;")
+    tables=cur.fetchall()
+    for i in tables:
+        if i[0] == filename:
             info = {
                 "target": 0,
                 "taskID": 0,
