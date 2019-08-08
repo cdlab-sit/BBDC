@@ -52,7 +52,8 @@ def host():
 
     if(tables != None):
         for i in tables:
-            if(i==filename):
+            print(i)
+            if(i=='%s',) % filename:
                 check_table=1
 
     if(check_table==0):
