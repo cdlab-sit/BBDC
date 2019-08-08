@@ -50,7 +50,7 @@ def host():
             if(i==filename):
                 check_table=1
 
-    if(check_table==1):
+    if(check_table==0):
         cur.execute("CREATE TABLE %s(taskID serial ,task integer ,result varchar(30) ,flag integer ,PRIMARY KEY(taskID))" % filename)
 
     cur.execute("COMMIT")
