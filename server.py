@@ -139,7 +139,8 @@ def make():
         return jsonify(info)
 
     # 乱数生成
-    target = random.randint(50000,100000)
+    # target = random.randint(50000,100000)
+    target = 5000
     cur.execute("INSERT INTO %s (task, result,flag) VALUES (%d, '%s', %d);" % (filename,target,'0', 0))
     cur.execute("SELECT taskID,task,result FROM %s WHERE result='0';" % filename)
     taskID = cur.fetchone()
@@ -148,8 +149,6 @@ def make():
             "target": target,
             "taskID": int(taskID[0]),
             }
-
-
 
     cur.execute("COMMIT")
     cur.close()
