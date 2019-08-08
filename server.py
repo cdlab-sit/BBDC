@@ -52,8 +52,8 @@ def host():
 
     if(tables != None):
         for i in tables:
-            print(i)
-            print(table)
+            print(type(i))
+            print(type(table))
             if(table == i):
                 print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
                 check_table=1
