@@ -4,6 +4,8 @@ import csv, random, datetime, os
 
 app = Flask(__name__)
 
+
+count = 0
 filename = 'moguchan'
 TASK_NUM = 130   #　処理するタスクの総数
 unit = 0
