@@ -4,12 +4,7 @@ import csv, random, datetime, os
 
 app = Flask(__name__)
 
-count = 0
-<<<<<<< HEAD
 filename = 'moguchan'
-=======
-filename = 'test'
->>>>>>> 91ea2617a2c13d1557de4293145eb751ec57d94e
 TASK_NUM = 130   #　処理するタスクの総数
 unit = 0
 if(TASK_NUM >= 13):
