@@ -54,7 +54,7 @@ def host():
         for i in tables:
             print(i)
             print(table)
-            if(i==table):
+            if(table == i):
                 print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
                 check_table=1
             else:
