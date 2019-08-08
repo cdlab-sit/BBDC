@@ -125,18 +125,6 @@ def make():
     conn = psycopg2.connect(host=HOST, port=PORT, database=DATABASE, user=USER, password=PASSWORD)
     cur = conn.cursor()
     
-    # 乱数生成
-    target = random.randint(50000,100000)
-    cur.execute("INSERT INTO %s (task, result,flag) VALUES (%d, '%s', %d);" % (filename,target,'0', 0))
-    cur.execute("SELECT taskID,task,result FROM %s WHERE result='0';" % filename)
-    taskID = cur.fetchone()
-    if(taskID != None):
-        info = {
-            "target": target,
-            "taskID": int(taskID[0]),
-            }
-
-            
     check = 0
     cur.execute("SELECT relname FROM pg_stat_user_tables;")
     tables=cur.fetchall()
@@ -148,10 +136,24 @@ def make():
             "target": 0,
             "taskID": 0,
         }  
+        return jsonify(info)
+
+    # 乱数生成
+    target = random.randint(50000,100000)
+    cur.execute("INSERT INTO %s (task, result,flag) VALUES (%d, '%s', %d);" % (filename,target,'0', 0))
+    cur.execute("SELECT taskID,task,result FROM %s WHERE result='0';" % filename)
+    taskID = cur.fetchone()
+    if(taskID != None):
+        info = {
+            "target": target,
+            "taskID": int(taskID[0]),
+            }
+
+
+
     cur.execute("COMMIT")
     cur.close()
     conn.close()
-    
 
     return jsonify(info)
 
