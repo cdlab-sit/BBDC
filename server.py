@@ -136,7 +136,8 @@ def make():
             "taskID": int(taskID[0]),
             }
 
-    check = 0;
+            
+    check = 0
     cur.execute("SELECT relname FROM pg_stat_user_tables;")
     tables=cur.fetchall()
     for i in tables:
