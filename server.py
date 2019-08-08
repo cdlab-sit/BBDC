@@ -136,13 +136,13 @@ def make():
             "taskID": int(taskID[0]),
             }
 
-    chech = 0;
+    check = 0;
     cur.execute("SELECT relname FROM pg_stat_user_tables;")
     tables=cur.fetchall()
     for i in tables:
         if i[0] == filename:
-            chech = 1
-    if(chech == 1):
+            check = 1
+    if(check == 0):
         info = {
             "target": 0,
             "taskID": 0,
