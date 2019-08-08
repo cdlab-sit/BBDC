@@ -44,7 +44,7 @@ def host():
     global filename
     check_table=0
 
-    cur.execute("SELECT * FROM pg_tables;")
+    cur.execute("SELECT relname FROM pg_stat_user_tables;")
     tables=cur.fetchall()
     
     print("in host :")
