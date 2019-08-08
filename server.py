@@ -5,7 +5,11 @@ import csv, random, datetime, os
 app = Flask(__name__)
 
 count = 0
+<<<<<<< HEAD
 filename = 'moguchan'
+=======
+filename = 'test'
+>>>>>>> 91ea2617a2c13d1557de4293145eb751ec57d94e
 TASK_NUM = 130   #　処理するタスクの総数
 unit = 0
 if(TASK_NUM >= 13):
@@ -41,6 +45,7 @@ def host():
     cur = conn.cursor()
     # 2週目以降のために初期化
     global filename
+<<<<<<< HEAD
     check_table=0
 
     cur.execute("SELECT * FROM pg_tables;")
@@ -53,6 +58,15 @@ def host():
 
     if(check_table==1):
         cur.execute("CREATE TABLE %s(taskID serial ,task integer ,result varchar(30) ,flag integer ,PRIMARY KEY(taskID))" % filename)
+=======
+    cur.execute("DROP TABLE %s;" % filename)
+
+    # データベースを作成
+    # dt_now = datetime.datetime.now()
+    # filename = dt_now.strftime('y%Ym%md%dh%Hm%Ms%S')
+    # print("in host:" + filename)
+    cur.execute("CREATE TABLE %s(taskID serial ,task integer ,result varchar(30) ,flag integer ,PRIMARY KEY(taskID))" % filename)
+>>>>>>> 91ea2617a2c13d1557de4293145eb751ec57d94e
 
     cur.execute("COMMIT")
     cur.close()
@@ -88,6 +102,7 @@ def host_task():
             for i in range(unit):
                 cur.execute("UPDATE %s SET flag=1 WHERE taskID = %d;" % (filename,stock_tasks[i][0]))
 
+<<<<<<< HEAD
     cur.execute("SELECT taskID,result FROM %s WHERE flag=1;" % filename)
     tasks = cur.fetchall()
     if(tasks != None):
@@ -95,6 +110,8 @@ def host_task():
         if(tasks>=TASK_NUM):
             cur.execute("DROP TABLE %s;" % filename)
     
+=======
+>>>>>>> 91ea2617a2c13d1557de4293145eb751ec57d94e
     cur.execute("COMMIT")
     cur.close()
     conn.close()

@@ -70,7 +70,7 @@ var dig = function(){
     setTimeout(dig, 0);
 }
 
-setTimeout(dig, 500);
+setTimeout(dig);
 
 /*
 	引数:n-素因数分解する整数
