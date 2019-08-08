@@ -52,9 +52,9 @@ def host():
 
     if(tables != None):
         for i in tables:
-            print(type(i))
-            print(type(table))
-            if(table == i):
+            print(i[0])
+            print(table)
+            if(filename == i[0]):
                 print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
                 check_table=1
             else:
