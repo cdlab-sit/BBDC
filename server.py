@@ -58,14 +58,6 @@ def host():
     if(check_table==1):
         cur.execute("CREATE TABLE %s(taskID serial ,task integer ,result varchar(30) ,flag integer ,PRIMARY KEY(taskID))" % filename)
 
-    cur.execute("DROP TABLE %s;" % filename)
-
-    # データベースを作成
-    # dt_now = datetime.datetime.now()
-    # filename = dt_now.strftime('y%Ym%md%dh%Hm%Ms%S')
-    # print("in host:" + filename)
-    cur.execute("CREATE TABLE %s(taskID serial ,task integer ,result varchar(30) ,flag integer ,PRIMARY KEY(taskID))" % filename)
-
     cur.execute("COMMIT")
     cur.close()
     conn.close()
