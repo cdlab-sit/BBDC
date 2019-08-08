@@ -43,7 +43,7 @@ def host():
     # 2週目以降のために初期化
     global filename
     check_table=0
-    table = '(\'moguchan\'),' 
+    table = '(\'moguchan\',)' 
     cur.execute("SELECT relname FROM pg_stat_user_tables;")
     tables=cur.fetchall()
     
