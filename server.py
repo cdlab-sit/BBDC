@@ -53,10 +53,12 @@ def host():
     if(tables != None):
         for i in tables:
             print(i)
-            print("tabel: " + table)
+            print(table)
             if(i==table):
                 print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
                 check_table=1
+            else:
+                print("nono")
 
     if(check_table==0):
         cur.execute("CREATE TABLE %s(taskID serial ,task integer ,result varchar(30) ,flag integer ,PRIMARY KEY(taskID))" % filename)
