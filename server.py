@@ -47,6 +47,9 @@ def host():
     cur.execute("SELECT * FROM pg_tables;")
     tables=cur.fetchall()
     
+    print("in host :")
+    print(tables)
+
     if(tables != None):
         for i in tables:
             if(i==filename):
