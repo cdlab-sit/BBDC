@@ -136,14 +136,17 @@ def make():
             "taskID": int(taskID[0]),
             }
 
+    chech = 0;
     cur.execute("SELECT relname FROM pg_stat_user_tables;")
     tables=cur.fetchall()
     for i in tables:
         if i[0] == filename:
-            info = {
-                "target": 0,
-                "taskID": 0,
-            }  
+            chech = 1
+    if(chech == 1):
+        info = {
+            "target": 0,
+            "taskID": 0,
+        }  
     cur.execute("COMMIT")
     cur.close()
     conn.close()
