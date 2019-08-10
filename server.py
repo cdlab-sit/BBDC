@@ -4,7 +4,7 @@ import csv, random, datetime, os
 app = Flask(__name__)
 
 filename = "csv/moguchanDB.csv"
-TASK_NUM = 130   #　処理するタスクの総数 13以上を指定
+TASK_NUM = 65   #　処理するタスクの総数 13以上を指定
 
 # csvディレクトリが存在しない場合にcsvディレクトリを作成
 if not os.path.exists('csv'):
@@ -35,7 +35,7 @@ def host():
             writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
             writer.writerow(['taskID','target','result','flag'])
             writer.writerow(['0','0','0','0'])
-            print('just made file')
+            # print('just made file')
     except:
         print("error")
     return render_template('moguchan.html')
@@ -46,9 +46,15 @@ def host():
 def index():
     return render_template('menu.html')
 
+
+@app.route('/host-log')
+def log():
+    return render_template('result.html')
+
 # hostからrequestを受けとり、タスクのユニット進行度を返す
 @app.route('/host-task')
 def host_task(): 
+    info = {}
     count = 0
     task_yet = 0
     result = 'false'
@@ -62,13 +68,12 @@ def host_task():
     
         for i in range(len(list)):
             if(list[i][3] == '0'):
-                task_yet = task_yet + 1
-                # list[i][3] = 1     
+                task_yet = task_yet + 1     
     except:
         result = 'false'
 
     # 未確認タスクが一定数以上溜まった場合は"ture"を返す
-    if(task_yet >= unit):
+    if(task_yet >= unit):       
         result = 'true'
         for i in range(len(list)):
             if(list[i][3] == '0'):
@@ -81,11 +86,16 @@ def host_task():
             writer = csv.writer(f,delimiter=',',lineterminator='\n')
             writer.writerows(list)
 
-    return result
-# デバッグ用
-# @app.route('/test')
-# def test():
-#     return render_template('test_host-task.html')
+    with open(filename, 'r') as f:
+        csv_data = csv.reader(f)
+        count = 0
+        for e in csv_data:
+            count = count + 1
+            if(count>2):
+                info[e[0]] = {"task":e[1], "result":e[2]}
+
+    info["result"] = result
+    return jsonify(info)
 
 # ユーザー側の処理中
 # htmlファイルを返す
@@ -105,7 +115,7 @@ def client_waiting():
 def make():
     count = 0
     dt_now = datetime.datetime.now()
-    taskID = dt_now.strftime('%Y_%m_%d_%H:%M:%S')
+    taskID = dt_now.strftime('%Y%m%d%H%M%S')
     
     # 乱数生成
     target = random.randint(50000,100000)
@@ -120,7 +130,7 @@ def make():
             list = [e for e in csv_data]
             for row in list:
                 if(row[3] == '1'):
-                    count = count + 1   
+                    count = count + 1
     except:
         info = {
             "target": -1,
@@ -131,6 +141,7 @@ def make():
             "target": 0,
             "taskID": 0,
         }
+    print(info)
     return jsonify(info)
 
 # /user で user.js により呼び出される
