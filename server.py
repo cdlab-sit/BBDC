@@ -3,9 +3,9 @@ import csv, random, datetime, os
 
 app = Flask(__name__)
 
-filename = ''   #　作成するcsvファイル名
+filename = './csv/aaa.csv'   #　作成するcsvファイル名
 taskID = 0      #　タスクに割り振られるID
-TASK_NUM = 1000   #　処理するタスクの総数
+TASK_NUM = 130   #　処理するタスクの総数
 task_count = 0  #　ホストに伝え終わったタスクのユニット数
 
 # csvディレクトリが存在しない場合にcsvディレクトリを作成
@@ -31,13 +31,11 @@ def add_header(r):
 def host():
     # 2週目以降のために初期化
     global filename,taskID,task_count
-    filename = ''
     taskID = 0
     task_count = 0
 
     # データを保存するcsvファイルを作成
     dt_now = datetime.datetime.now()
-    filename = 'csv/' + dt_now.strftime('%Y_%m_%d_%H:%M:%S')
     try:
         with open(filename,'w') as csvfile:
             writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
@@ -57,7 +55,7 @@ def index():
 # hostからrequestを受けとり、タスクのユニット進行度を返す
 @app.route('/host-task')
 def host_task(): 
-    global task_count
+    global task_count, filename
     task = 0
     result = 'false'
     unit = int(TASK_NUM/13)
@@ -97,7 +95,7 @@ def client_waiting():
 # タスクをjson形式で返す
 @app.route('/make-task')
 def make():
-    global taskID, TASK_NUM
+    global taskID, TASK_NUM, filename
     taskID+=1
     
     # 乱数生成

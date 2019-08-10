@@ -45,7 +45,7 @@ var notReady = function(){
         contents[i].style.display = "none";
     }
     contents[0].innerText = "モグちゃんの準備が整っていないようです...";
-    setTimeout("location.href='/user-waiting'",3000);
+    setTimeout("location.href='./user-waiting'",3000);
 }
 
 var dig = function(){
