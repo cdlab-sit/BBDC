@@ -3,10 +3,8 @@ import csv, random, datetime, os
 
 app = Flask(__name__)
 
-filename = ''   #　作成するcsvファイル名
-taskID = 0      #　タスクに割り振られるID
-TASK_NUM = 1000   #　処理するタスクの総数
-task_count = 0  #　ホストに伝え終わったタスクのユニット数
+filename = "csv/moguchanDB.csv"
+TASK_NUM = 130   #　処理するタスクの総数 13以上を指定
 
 # csvディレクトリが存在しない場合にcsvディレクトリを作成
 if not os.path.exists('csv'):
@@ -30,19 +28,13 @@ def add_header(r):
 @app.route('/host')
 def host():
     # 2週目以降のために初期化
-    global filename,taskID,task_count
-    filename = ''
-    taskID = 0
-    task_count = 0
 
     # データを保存するcsvファイルを作成
-    dt_now = datetime.datetime.now()
-    filename = 'csv/' + dt_now.strftime('%Y_%m_%d_%H:%M:%S')
     try:
         with open(filename,'w') as csvfile:
             writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
-            writer.writerow(['taskID','target','result'])
-            writer.writerow(['0','0','0'])
+            writer.writerow(['taskID','target','result','flag'])
+            writer.writerow(['0','0','0','0'])
             print('just made file')
     except:
         print("error")
@@ -57,25 +49,39 @@ def index():
 # hostからrequestを受けとり、タスクのユニット進行度を返す
 @app.route('/host-task')
 def host_task(): 
-    global task_count
-    task = 0
+    count = 0
+    task_yet = 0
     result = 'false'
     unit = int(TASK_NUM/13)
-    if(task_count*unit > TASK_NUM):
-        return result
+
+    # 未確認のタスクを確認
     try:
-        with open(filename,'r',newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                task = int(row['taskID'])
+        with open(filename, 'r') as f:
+            csv_data = csv.reader(f)
+            list = [e for e in csv_data]
+    
+        for i in range(len(list)):
+            if(list[i][3] == '0'):
+                task_yet = task_yet + 1
+                # list[i][3] = 1     
     except:
         result = 'false'
-    if((task - task_count*unit) >= unit):
-        result = 'true'
-        task_count = task_count+1
-    # print('in /host-task :' + result)
-    return result
 
+    # 未確認タスクが一定数以上溜まった場合は"ture"を返す
+    if(task_yet >= unit):
+        result = 'true'
+        for i in range(len(list)):
+            if(list[i][3] == '0'):
+                list[i][3] = 1
+                count = count + 1
+            if(count >= unit):
+                break
+        # タスクのリストを確認済みにする
+        with open(filename, 'w', newline='') as f:
+            writer = csv.writer(f,delimiter=',',lineterminator='\n')
+            writer.writerows(list)
+
+    return result
 # デバッグ用
 # @app.route('/test')
 # def test():
@@ -97,8 +103,9 @@ def client_waiting():
 # タスクをjson形式で返す
 @app.route('/make-task')
 def make():
-    global taskID, TASK_NUM
-    taskID+=1
+    count = 0
+    dt_now = datetime.datetime.now()
+    taskID = dt_now.strftime('%Y_%m_%d_%H:%M:%S')
     
     # 乱数生成
     target = random.randint(50000,100000)
@@ -108,20 +115,21 @@ def make():
         "taskID": taskID,
     }
     try:
-        with open(filename,'r',newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            # print(type(reader))
-            for row in reader:
-                # print("in /make-task taskID:" + row['taskID'])
-                if(int(row['taskID']) >= TASK_NUM):
-                    info = {
-                        "target": 0,
-                        "taskID": 0,
-                    }   
+        with open(filename,'r') as f:
+            csv_data = csv.reader(f)
+            list = [e for e in csv_data]
+            for row in list:
+                if(row[3] == '1'):
+                    count = count + 1   
     except:
         info = {
             "target": -1,
             "taskID": -1,
+        }
+    if(count >= TASK_NUM):
+        info = {
+            "target": 0,
+            "taskID": 0,
         }
     return jsonify(info)
 
@@ -129,13 +137,9 @@ def make():
 # タスク終了時にcsvファイルにタスクの情報を書き込む 
 @app.route('/complete-task', methods=['POST'])
 def complete():
-    global filename
     with open(filename,'a',newline='') as csvfile:
-        # print("in /complete-task taskID:" + request.form['taskID'])
-        # print("in /complete-task target:" + request.form['target'])
-        # print("in /complete-task result:" + request.form['result'])
         writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
-        writer.writerow([request.form['taskID'],request.form['target'],request.form['result']])
+        writer.writerow([request.form['taskID'],request.form['target'],request.form['result'],0])
     return 'complete-task'
 
 # flask 設定
