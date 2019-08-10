@@ -144,11 +144,11 @@ const xhrGet = new XMLHttpRequest();
 const sendGet = function(){
   xhrGet.open('GET', 'host-task', false);
   xhrGet.send(null);
+  
 }
 
 xhrGet.onload = function(){
-  console.log(JSON.parse(this.responseText)["result"])
-  if(JSON.parse(this.responseText)["result"] == 'true') {
+  if (this.responseText == 'true') {
     num++;
     mogumogu(num);
   }
