@@ -35,9 +35,8 @@ def host():
             writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
             writer.writerow(['taskID','target','result','flag'])
             writer.writerow(['0','0','0','0'])
-            # print('just made file')
     except:
-        print("error")
+        print("error in server.py(def host())")
     return render_template('moguchan.html')
 
 # ホスト側の待機
@@ -87,7 +86,7 @@ def host_task():
         for e in csv_data:
             count = count + 1
             if(count>2):
-                info["tasks"] = {"taskID":e[0], "task":e[1], "result":e[2]}
+                info["tasks"] = {"taskID":e[0], "target":e[1], "result":e[2]}
 
     info["result"] = result
     return jsonify(info)
@@ -111,9 +110,7 @@ def make():
     count = 0
     dt_now = datetime.datetime.now()
     # %fはミリ秒で[:-3]で3桁まで出力の指定
-    taskID = dt_now.strftime('%d%H%M%S%f')[:-3]
-
-    print(taskID)
+    taskID = int(dt_now.strftime('%d%H%M%S%f')[:-3])
     
     # 乱数生成
     target = random.randint(50000,100000)
