@@ -4,7 +4,7 @@ import csv, random, datetime, os
 app = Flask(__name__)
 
 filename = "csv/moguchanDB.csv"
-TASK_NUM = 65   #　処理するタスクの総数 13以上を指定
+TASK_NUM = 39   #　処理するタスクの総数 13以上を指定
 
 # csvディレクトリが存在しない場合にcsvディレクトリを作成
 if not os.path.exists('csv'):
@@ -45,11 +45,6 @@ def host():
 @app.route('/host-waiting')
 def index():
     return render_template('menu.html')
-
-
-@app.route('/host-log')
-def log():
-    return render_template('result.html')
 
 # hostからrequestを受けとり、タスクのユニット進行度を返す
 @app.route('/host-task')
@@ -92,7 +87,7 @@ def host_task():
         for e in csv_data:
             count = count + 1
             if(count>2):
-                info[e[0]] = {"task":e[1], "result":e[2]}
+                info["tasks"] = {"taskID":e[0], "task":e[1], "result":e[2]}
 
     info["result"] = result
     return jsonify(info)
@@ -115,7 +110,10 @@ def client_waiting():
 def make():
     count = 0
     dt_now = datetime.datetime.now()
-    taskID = dt_now.strftime('%Y%m%d%H%M%S')
+    # %fはミリ秒で[:-3]で3桁まで出力の指定
+    taskID = dt_now.strftime('%d%H%M%S%f')[:-3]
+
+    print(taskID)
     
     # 乱数生成
     target = random.randint(50000,100000)
@@ -141,7 +139,6 @@ def make():
             "target": 0,
             "taskID": 0,
         }
-    print(info)
     return jsonify(info)
 
 # /user で user.js により呼び出される
