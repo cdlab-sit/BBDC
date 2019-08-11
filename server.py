@@ -83,10 +83,11 @@ def host_task():
     with open(filename, 'r') as f:
         csv_data = csv.reader(f)
         count = 0
+        info["tasks"] = []
         for e in csv_data:
             count = count + 1
             if(count>2):
-                info["tasks"] = {"taskID":e[0], "target":e[1], "result":e[2]}
+                info["tasks"].append({"taskID":e[0], "target":e[1], "result":e[2]})
 
     info["result"] = result
     return jsonify(info)
