@@ -35,8 +35,9 @@ def host():
             writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
             writer.writerow(['taskID','target','result','flag'])
             writer.writerow(['0','0','0','0'])
+            # print('just made file')
     except:
-        print("error in server.py(def host())")
+        print("error")
     return render_template('moguchan.html')
 
 # ホスト側の待機
@@ -44,6 +45,11 @@ def host():
 @app.route('/host-waiting')
 def index():
     return render_template('menu.html')
+
+
+@app.route('/host-log')
+def log():
+    return render_template('result.html')
 
 # hostからrequestを受けとり、タスクのユニット進行度を返す
 @app.route('/host-task')
@@ -83,11 +89,10 @@ def host_task():
     with open(filename, 'r') as f:
         csv_data = csv.reader(f)
         count = 0
-        info["tasks"] = []
         for e in csv_data:
             count = count + 1
             if(count>2):
-                info["tasks"].append({"taskID":e[0], "target":e[1], "result":e[2]})
+                info[e[0]] = {"task":e[1], "result":e[2]}
 
     info["result"] = result
     return jsonify(info)
@@ -110,8 +115,7 @@ def client_waiting():
 def make():
     count = 0
     dt_now = datetime.datetime.now()
-    # %fはミリ秒で[:-3]で3桁まで出力の指定
-    taskID = int(dt_now.strftime('%d%H%M%S%f')[:-3])
+    taskID = dt_now.strftime('%Y%m%d%H%M%S')
     
     # 乱数生成
     target = random.randint(50000,100000)
@@ -145,8 +149,8 @@ def make():
 def complete():
     with open(filename,'a',newline='') as csvfile:
         writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
-        writer.writerow([request.form['taskID'], request.form['target'], request.form['result'], 0])
-    return request.form['result'] 
+        writer.writerow([request.form['taskID'],request.form['target'],request.form['result'],0])
+    return 'complete-task'
 
 # flask 設定
 if __name__ == "__main__":
