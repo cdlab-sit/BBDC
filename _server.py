@@ -1,29 +1,14 @@
-import psycopg2
 from flask import Flask, render_template, request, jsonify
 import csv, random, datetime, os
 
 app = Flask(__name__)
 
-
 filename = "csv/moguchanDB.csv"
 TASK_NUM = 39   #　処理するタスクの総数 13以上を指定
 
-
-count = 0
-filename = 'moguchan'
-TASK_NUM = 130   #　処理するタスクの総数
-unit = 0
-if(TASK_NUM >= 13):
-    unit = int(TASK_NUM/13)
-    print(unit)
-else:
-    print('error')
-
-HOST=""
-PORT=""
-DATABASE=""
-USER=""
-PASSWORD=""
+# csvディレクトリが存在しない場合にcsvディレクトリを作成
+if not os.path.exists('csv'):
+    os.mkdir('csv')
 
 # 　キャッシュを保存させない指定
 @app.after_request
@@ -42,8 +27,6 @@ def add_header(r):
 # csvファイルを作成し、htmlファイルを返す
 @app.route('/host')
 def host():
-    conn = psycopg2.connect(host=HOST, port=PORT, database=DATABASE, user=USER, password=PASSWORD)
-    cur = conn.cursor()
     # 2週目以降のために初期化
 
     # データを保存するcsvファイルを作成
@@ -52,19 +35,23 @@ def host():
             writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
             writer.writerow(['taskID','target','result','flag'])
             writer.writerow(['0','0','0','0'])
+            # print('just made file')
     except:
-        print("error in server.py(def host())")
-
+        print("error")
     return render_template('moguchan.html')
 
 # ホスト側の待機
 # htmlファイルを返す
 @app.route('/host-waiting')
 def index():
-    # cur.execute("INSERT INTO %s (task, result,flag) VALUES (%d, '%s', %d);" % (filename,0,'0',0))
     return render_template('menu.html')
 
-# hostからrequestを受けとり、タスクの進行度を返す
+
+@app.route('/host-log')
+def log():
+    return render_template('result.html')
+
+# hostからrequestを受けとり、タスクのユニット進行度を返す
 @app.route('/host-task')
 def host_task(): 
     info = {}
@@ -102,16 +89,13 @@ def host_task():
     with open(filename, 'r') as f:
         csv_data = csv.reader(f)
         count = 0
-        info["tasks"] = []
         for e in csv_data:
             count = count + 1
             if(count>2):
-                info["tasks"].append({"taskID":e[0], "target":e[1], "result":e[2]})
+                info[e[0]] = {"task":e[1], "result":e[2]}
 
     info["result"] = result
     return jsonify(info)
-
-
 
 # ユーザー側の処理中
 # htmlファイルを返す
@@ -131,23 +115,8 @@ def client_waiting():
 def make():
     count = 0
     dt_now = datetime.datetime.now()
-    # %fはミリ秒で[:-3]で3桁まで出力の指定
-    taskID = int(dt_now.strftime('%d%H%M%S%f')[:-3])
-
+    taskID = dt_now.strftime('%Y%m%d%H%M%S')
     
-    check = 0
-    cur.execute("SELECT relname FROM pg_stat_user_tables;")
-    tables=cur.fetchall()
-    for i in tables:
-        if i[0] == filename:
-            check = 1
-    if(check == 0):
-        info = {
-            "target": 0,
-            "taskID": 0,
-        }  
-        return jsonify(info)
-
     # 乱数生成
     target = random.randint(50000,100000)
     #target = 50000 #test
@@ -172,7 +141,6 @@ def make():
             "target": 0,
             "taskID": 0,
         }
-
     return jsonify(info)
 
 # /user で user.js により呼び出される
@@ -181,10 +149,9 @@ def make():
 def complete():
     with open(filename,'a',newline='') as csvfile:
         writer=csv.writer(csvfile,delimiter=',',lineterminator='\n')
-        writer.writerow([request.form['taskID'], request.form['target'], request.form['result'], 0])
-    return request.form['result'] 
+        writer.writerow([request.form['taskID'],request.form['target'],request.form['result'],0])
+    return 'complete-task'
 
 # flask 設定
 if __name__ == "__main__":
     app.run(threaded=True, debug=True, host='0.0.0.0', port=5000)
-

@@ -29,3 +29,7 @@
   justify-content: center;
   flex-direction: row;
 }
+
+body{
+  margin: 0px;
+}

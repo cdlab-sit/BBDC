@@ -8,6 +8,7 @@ const parking = "static/img/parking-250-250.gif";
 const diamond = "static/img/treasure-250-250-30.gif";
 const yattane = "static/img/yattane-250-250-30.gif";
 
+const max_line = 20;
 let num = 0;
 
 const digtimer = document.getElementById('digtimer');
@@ -50,13 +51,15 @@ const mogumogu = function(num){
         document.getElementById("l1c4").src=sutegoro;
         break;
       case 4:
-        document.getElementById("l1c1").src=ground_a;
-        document.getElementById("l1c2").src=ground_a;
-        document.getElementById("l1c3").src=ground_a;
+        //document.getElementById("l1c1").src=ground_a;
+        //document.getElementById("l1c2").src=ground_a;
+        //document.getElementById("l1c3").src=ground_a;
         document.getElementById("l1c4").src=ground_a;
         break;
       case 5:
         document.getElementById("l2c4").src=pickeler;
+        document.getElementById("l2c4").src=pickeler;
+
         break;
       case 6:
         document.getElementById("l2c3").src=pickeler;
@@ -72,9 +75,9 @@ const mogumogu = function(num){
         break;
       case 9:
         document.getElementById("l2c1").src=ground_a;
-        document.getElementById("l2c2").src=ground_a;
-        document.getElementById("l2c3").src=ground_a;
-        document.getElementById("l2c4").src=ground_a;
+        //document.getElementById("l2c2").src=ground_a;
+        //document.getElementById("l2c3").src=ground_a;
+        //document.getElementById("l2c4").src=ground_a;
         break;
       case 10:
         document.getElementById("l3c1").src=driller;
@@ -88,8 +91,8 @@ const mogumogu = function(num){
         document.getElementById("l3c3").src=driller;
         break;
       case 13:
-        document.getElementById("l3c1").src=ground_a;
-        document.getElementById("l3c2").src=ground_a;
+        //document.getElementById("l3c1").src=ground_a;
+        //document.getElementById("l3c2").src=ground_a;
         document.getElementById("l3c3").src=parking;
         document.getElementById("l3c4").src=yattane;
 
@@ -147,10 +150,25 @@ const sendGet = function(){
   
 }
 
+
+const logs = document.getElementById('logs');
 xhrGet.onload = function(){
-  if (this.responseText == 'true') {
+  if (JSON.parse(this.responseText)['result'] == 'true') { 
     num++;
     mogumogu(num);
   }
   console.log('num = ' + num);
+  var tasks = JSON.parse(this.responseText)['tasks'];
+  console.log(typeof(tasks));
+  console.log(tasks);
+  //console.log(tasks.result);
+  var logs_list = '';
+  for (var i in tasks){
+    if (max_line > Object.keys(tasks).length - i){
+    logs_list += '<li style="font-size: 25px; list-style: none;">' + tasks[i].target + ' = ' + tasks[i].result + '</li>';
+    }
+    console.log('a'); 
+  }
+  document.getElementById('logs').innerHTML = logs_list;
+  console.log('-----')
 }
