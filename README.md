@@ -9,4 +9,3 @@
 ![QR](./design/other-imges/qrcode-moguchan.png)
 
 ### [参加者側ページ](https://purplealpaca1.sakura.ne.jp/mogumogu/BBDC/user-waiting)
-### [ホスト側ページ](https://purplealpaca1.sakura.ne.jp/mogumogu/BBDC/host-waiting)
